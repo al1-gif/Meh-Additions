@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "mehadditions:item/eyes_of_origin"
+  }
+}

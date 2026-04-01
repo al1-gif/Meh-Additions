@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "mehadditions",
+	"version": "${version}",
+	"name": "Meh additions",
+	"description": "Various additions in minecraft ",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://github.com/al1-gif",
+		"sources": "https://github.com/al1-gif/Meh-Additions"
+	},
+	"license": "MIT",
+	"icon": "assets/mehadditions/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.shuuphe.mehadditions.MehAdditions"
+		],
+		"fabric-datagen": [
+			"net.shuuphe.mehadditions.MehAdditionsDataGenerator"
+		],
+		"client": [
+			"net.shuuphe.mehadditions.MehAdditionsClient"
+		]
+	},
+	"mixins": [
+		"mehadditions.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.5",
+		"minecraft": "~1.21.10",
+		"java": ">=21",
+		"fabric-api": "*",
+		"mehorigins": "*"
+	}
+}
