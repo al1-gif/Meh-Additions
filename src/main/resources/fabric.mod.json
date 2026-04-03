@@ -33,6 +33,6 @@
 		"minecraft": "~1.21.10",
 		"java": ">=21",
 		"fabric-api": "*",
-		"mehorigins": "*"
+		"mehorigins": "1.21.10-1.1"
 	}
 }
