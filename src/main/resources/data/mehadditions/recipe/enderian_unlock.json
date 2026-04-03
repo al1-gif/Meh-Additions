@@ -1,0 +1,20 @@
+{
+  "type": "mehadditions:staff_upgrade",
+  "race": "enderian",
+  "group": "",
+  "category": "misc",
+  "pattern": [
+    "EEE",
+    "EOE",
+    "EEE"
+  ],
+  "key": {
+    "E": "minecraft:ender_pearl",
+    "O": "mehadditions:origin_staff"
+  },
+  "result": {
+    "id": "mehadditions:origin_staff",
+    "count": 1
+  },
+  "show_notification": true
+}

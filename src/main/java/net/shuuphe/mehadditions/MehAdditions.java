@@ -1,6 +1,7 @@
 package net.shuuphe.mehadditions;
 
 import net.fabricmc.api.ModInitializer;
+import net.shuuphe.mehadditions.network.SelectRaceWithStaffPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,11 @@ public class MehAdditions implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.register();
+		ModBlocks.register();
+		ModRecipes.register();
+		ModScreenHandlers.register();
 		ModEvents.register();
+		SelectRaceWithStaffPacket.register();
 		LOGGER.info("Meh-Additions initializing...");
 	}
 }

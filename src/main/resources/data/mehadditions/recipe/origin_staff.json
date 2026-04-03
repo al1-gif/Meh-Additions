@@ -1,13 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "mehadditions:staff_base",
   "pattern": [
     " E ",
-    " B ",
+    "GBG",
     " B "
   ],
   "key": {
     "B": "minecraft:breeze_rod",
-    "E": "mehadditions:eyes_of_origin"
+    "E": "mehadditions:eyes_of_origin",
+    "G": "minecraft:gold_ingot"
   },
   "result": {
     "id": "mehadditions:origin_staff",

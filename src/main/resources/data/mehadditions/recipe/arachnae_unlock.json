@@ -1,0 +1,21 @@
+{
+  "type": "mehadditions:staff_upgrade",
+  "race": "arachnae",
+  "group": "",
+  "category": "misc",
+  "pattern": [
+    "SSE",
+    "SOE",
+    "SEE"
+  ],
+  "key": {
+    "S": "minecraft:string",
+    "E": "minecraft:spider_eye",
+    "O": "mehadditions:origin_staff"
+  },
+  "result": {
+    "id": "mehadditions:origin_staff",
+    "count": 1
+  },
+  "show_notification": true
+}

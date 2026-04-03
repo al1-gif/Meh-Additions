@@ -1,0 +1,24 @@
+{
+  "type": "mehadditions:staff_upgrade",
+  "race": "revenant",
+  "group": "",
+  "category": "misc",
+  "pattern": [
+    "ZSW",
+    "YOY",
+    "RRR"
+  ],
+  "key": {
+    "Z": "minecraft:zombie_head",
+    "S": "skeleton_skull",
+    "W": "minecraft:wither_skeleton_skull",
+    "Y": "mehadditions:eyes_of_origin",
+    "R": "minecraft:wither_rose",
+    "O": "mehadditions:origin_staff"
+  },
+  "result": {
+    "id": "mehadditions:origin_staff",
+    "count": 1
+  },
+  "show_notification": true
+}

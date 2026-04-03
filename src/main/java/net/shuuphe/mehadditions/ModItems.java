@@ -21,7 +21,7 @@ public class ModItems {
     );
 
     public static final OriginStaffItem ORIGIN_STAFF = new OriginStaffItem(
-            new Item.Settings().maxDamage(60).maxCount(1).registryKey(key("origin_staff"))
+            new Item.Settings().maxDamage(250).maxCount(1).registryKey(key("origin_staff"))
     );
 
     public static void register() {

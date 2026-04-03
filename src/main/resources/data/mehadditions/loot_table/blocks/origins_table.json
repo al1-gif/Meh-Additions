@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [{
+    "rolls": 1,
+    "entries": [{
+      "type": "minecraft:item",
+      "name": "mehadditions:origins_table"
+    }],
+    "conditions": [{
+      "condition": "minecraft:match_tool",
+      "predicate": { "items": ["minecraft:diamond_pickaxe", "minecraft:netherite_pickaxe"] }
+    }]
+  }]
+}

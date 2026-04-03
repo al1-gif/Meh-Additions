@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    " B ",
+    "OOO"
+  ],
+  "key": {
+    "N": "minecraft:nether_star",
+    "O": "minecraft:obsidian",
+    "B": "minecraft:netherite_block"
+  },
+  "result": {
+    "id": "mehadditions:origins_table",
+    "count": 1
+  }
+}

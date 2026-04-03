@@ -1,0 +1,20 @@
+{
+  "type": "mehadditions:staff_upgrade",
+  "race": "avian",
+  "group": "",
+  "category": "misc",
+  "pattern": [
+    "FFF",
+    "FOF",
+    "FFF"
+  ],
+  "key": {
+    "F": "minecraft:feather",
+    "O": "mehadditions:origin_staff"
+  },
+  "result": {
+    "id": "mehadditions:origin_staff",
+    "count": 1
+  },
+  "show_notification": true
+}
