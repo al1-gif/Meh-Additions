@@ -10,10 +10,14 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.shuuphe.mehadditions.client.screen.CraftingAltarScreen;
 import net.shuuphe.mehadditions.client.screen.OriginsTableScreen;
 import net.shuuphe.mehadditions.client.screen.AdditionsGuideScreen;
+import net.shuuphe.mehadditions.item.OriginStaffItem;
 
 public class MehAdditionsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ((OriginStaffItem) ModItems.ORIGIN_STAFF).clientOpenScreen =
+                stack -> net.minecraft.client.MinecraftClient.getInstance()
+                        .setScreen(new net.shuuphe.mehadditions.client.screen.StaffScreen(stack));
         HandledScreens.register(ModScreenHandlers.ORIGINS_TABLE, OriginsTableScreen::new);
         EntityRendererRegistry.register(ModEntityTypes.RUNE_ARROW, ArrowEntityRenderer::new);
         HandledScreens.register(ModScreenHandlers.CRAFTING_ALTAR, CraftingAltarScreen::new);

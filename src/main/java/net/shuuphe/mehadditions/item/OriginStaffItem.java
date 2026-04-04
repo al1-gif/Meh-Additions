@@ -18,16 +18,16 @@ import java.util.function.Consumer;
 
 public class OriginStaffItem extends Item {
 
+    public static Consumer<ItemStack> clientOpenScreen = null;
+
     public OriginStaffItem(Settings settings) {
         super(settings);
     }
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if (world.isClient()) {
-            ItemStack stack = user.getStackInHand(hand);
-            net.minecraft.client.MinecraftClient.getInstance()
-                    .setScreen(new net.shuuphe.mehadditions.client.screen.StaffScreen(stack));
+        if (world.isClient() && clientOpenScreen != null) {
+            clientOpenScreen.accept(user.getStackInHand(hand));
         }
         return ActionResult.SUCCESS;
     }
