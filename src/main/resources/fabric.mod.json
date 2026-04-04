@@ -3,9 +3,10 @@
 	"id": "mehadditions",
 	"version": "${version}",
 	"name": "Meh additions",
-	"description": "Various additions in minecraft ",
+	"description": "Various additions in minecraft. Disclaimer= The models and texture packs are from Raycifer from modrinth and curseforge",
 	"authors": [
-		"Me!"
+		"Mod= Shuuphe",
+		"Items model and textures= Raycifer"
 	],
 	"contact": {
 		"homepage": "https://github.com/al1-gif",

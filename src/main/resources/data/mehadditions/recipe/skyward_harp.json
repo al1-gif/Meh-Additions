@@ -1,16 +1,17 @@
 {
   "type": "mehadditions:staff_base",
   "pattern": [
-    "SSS",
-    "L L",
-    "LLL"
+    "RS ",
+    "RBS",
+    "RS "
   ],
   "key": {
-    "L": "minecraft:leather",
+    "B": "minecraft:bow",
+    "R": "minecraft:breeze_rod",
     "S": "minecraft:string"
   },
   "result": {
-    "id": "mehadditions:small_rune_pouch",
+    "id": "mehadditions:skyward_harp",
     "count": 1
   }
 }

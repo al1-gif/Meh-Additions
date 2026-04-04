@@ -18,6 +18,8 @@ import net.shuuphe.mehadditions.util.StaffDataHelper;
 
 public class StaffUpgradeRecipe implements Recipe<CraftingRecipeInput> {
 
+    public ShapedRecipe getInner() { return inner; }
+
     final ShapedRecipe inner;
     final String raceId;
 

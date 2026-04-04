@@ -1,16 +1,17 @@
 {
   "type": "mehadditions:staff_base",
   "pattern": [
-    "SSS",
-    "L L",
-    "LLL"
+    "DS ",
+    "DBS",
+    "DS "
   ],
   "key": {
-    "L": "minecraft:leather",
+    "B": "minecraft:bow",
+    "D": "minecraft:diamond",
     "S": "minecraft:string"
   },
   "result": {
-    "id": "mehadditions:small_rune_pouch",
+    "id": "mehadditions:amos_bow",
     "count": 1
   }
 }

@@ -1,16 +1,6 @@
 {
-  "type": "mehadditions:staff_base",
-  "pattern": [
-    " S ",
-    "SRS",
-    " S "
-  ],
-  "key": {
-    "S": "minecraft:stick",
-    "R": "minecraft:redstone"
-  },
-  "result": {
-    "id": "mehadditions:lightning_stone",
-    "count": 1
-  }
+  "type": "mehadditions:crafting_altar",
+  "first": ["minecraft:stone", "minecraft:granite", "minecraft:diorite", "minecraft:andesite", "minecraft:tuff", "minecraft:deepslate", "minecraft:cobblestone"],
+  "second": "minecraft:amethyst_shard",
+  "result": { "id": "mehadditions:lightning_stone", "count": 8 }
 }

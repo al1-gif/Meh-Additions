@@ -1,0 +1,16 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " N ",
+    "NNN",
+    " B "
+  ],
+  "key": {
+    "B": "minecraft:breeze_rod",
+    "N": "minecraft:diamond"
+  },
+  "result": {
+    "id": "mehadditions:freedom_sworn",
+    "count": 1
+  }
+}

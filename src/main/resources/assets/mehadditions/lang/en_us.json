@@ -23,5 +23,8 @@
 
   "container.mehadditions.small_rune_pouch": "Small Rune Pouch",
   "container.mehadditions.medium_rune_pouch": "Medium Rune Pouch",
-  "container.mehadditions.large_rune_pouch": "Large Rune Pouch"
+  "container.mehadditions.large_rune_pouch": "Large Rune Pouch",
+
+  "item.mehadditions.lumidouce_elegy": "Lumidouce Elegy",
+  "item.mehadditions.freedom_sworn": "Freedom Sworn"
 }

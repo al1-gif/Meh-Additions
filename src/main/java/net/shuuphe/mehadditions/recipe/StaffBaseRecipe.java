@@ -14,6 +14,8 @@ import net.shuuphe.mehadditions.ModRecipes;
 
 public class StaffBaseRecipe implements Recipe<CraftingRecipeInput> {
 
+    public ShapedRecipe getInner() { return inner; }
+
     final ShapedRecipe inner;
 
     public StaffBaseRecipe(ShapedRecipe inner) { this.inner = inner; }

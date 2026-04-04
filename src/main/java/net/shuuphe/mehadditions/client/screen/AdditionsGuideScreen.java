@@ -116,7 +116,7 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
         spacer();
 
         stat(COL_GREEN, "─  Meh Origins Table  ─");
-        body("  A special crafting table used to craft and upgrade the Staff of Origins.");
+        body("  A special crafting table used to craft meh origin tools and upgrade the Staff of Origins.");
         image("meh_origin_table");
         spacer();
 
@@ -142,6 +142,30 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
         anchor("recipe_pixie");    stat(COL_YELLOW, "  Pixie");    image("pixie");    gap();
         anchor("recipe_revenant"); stat(COL_YELLOW, "  Revenant"); image("revenant"); gap();
         anchor("recipe_shulk");    stat(COL_YELLOW, "  Shulk");    image("shulk");    gap();
+
+        anchor("recipe_shulk");    stat(COL_YELLOW, "  Shulk");    image("shulk");    gap();
+
+        spacer();
+        stat(COL_GREEN, "════  Tools  ════");
+        spacer();
+
+        stat(COL_YELLOW, "  Catalyst");          image("catalyst");        gap();
+        stat(COL_YELLOW, "  Freedom Sworn");     image("freedom_sworn");   gap();
+        stat(COL_YELLOW, "  Lumidouce Elegy");   image("lumidouce_elegy"); gap();
+        stat(COL_YELLOW, "  Skyward Harp");      image("skyward_harp");    gap();
+        stat(COL_YELLOW, "  Amos Bow");          image("amos_bow");        gap();
+        stat(COL_YELLOW, "  Small Rune Pouch");  image("small_pouch");     gap();
+        stat(COL_YELLOW, "  Large Rune Pouch");  image("large_pouch");     gap();
+
+        spacer();
+        stat(COL_GREEN, "════  Crafting Altar  ════");
+        spacer();
+        image("crafting_altar");
+        spacer();
+
+        stat(COL_YELLOW, "  Fire Rune");         image("fire_rune");       gap();
+        stat(COL_YELLOW, "  Frost Rune");        image("frost_rune");      gap();
+        stat(COL_YELLOW, "  Lightning Rune");    image("lightning_rune");  gap();
     }
 
     @Override

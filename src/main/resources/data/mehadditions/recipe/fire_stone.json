@@ -1,16 +1,6 @@
 {
-  "type": "mehadditions:staff_base",
-  "pattern": [
-    " S ",
-    "SFS",
-    " S "
-  ],
-  "key": {
-    "S": "minecraft:stick",
-    "F": "minecraft:flint"
-  },
-  "result": {
-    "id": "mehadditions:fire_stone",
-    "count": 1
-  }
+  "type": "mehadditions:crafting_altar",
+  "first": ["minecraft:stone", "minecraft:granite", "minecraft:diorite", "minecraft:andesite", "minecraft:tuff", "minecraft:deepslate", "minecraft:cobblestone"],
+  "second": "minecraft:netherrack",
+  "result": { "id": "mehadditions:fire_stone", "count": 8 }
 }

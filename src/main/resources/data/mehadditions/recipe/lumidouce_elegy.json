@@ -1,16 +1,17 @@
 {
   "type": "mehadditions:staff_base",
   "pattern": [
-    "III",
-    " S ",
-    "SSS"
+    " B ",
+    "IBI",
+    " R "
   ],
   "key": {
-    "S": "minecraft:cobblestone",
+    "B": "minecraft:blaze_rod",
+    "R": "minecraft:breeze_rod",
     "I": "minecraft:iron_ingot"
   },
   "result": {
-    "id": "mehadditions:crafting_altar",
+    "id": "mehadditions:lumidouce_elegy",
     "count": 1
   }
 }

@@ -1,13 +1,14 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "mehadditions:staff_base",
   "pattern": [
-    "SCS",
-    "C C",
-    "SCS"
+    "SSS",
+    "LPL",
+    "LLL"
   ],
   "key": {
-    "S": "minecraft:stick",
-    "C": "minecraft:copper_ingot"
+    "L": "minecraft:leather",
+    "S": "minecraft:string",
+    "P": "mehadditions:small_rune_pouch"
   },
   "result": {
     "id": "mehadditions:large_rune_pouch",

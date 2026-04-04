@@ -47,6 +47,12 @@ public class ModItems {
     public static final SkywardHarpItem SKYWARD_HARP = new SkywardHarpItem(
             new Item.Settings().maxDamage(384).maxCount(1).registryKey(key("skyward_harp")));
 
+    public static final LumidouceElegyScepterItem LUMIDOUCE_ELEGY = new LumidouceElegyScepterItem(
+            new Item.Settings().maxDamage(512).maxCount(1).registryKey(key("lumidouce_elegy")));
+
+    public static final FreedomSwornItem FREEDOM_SWORN = new FreedomSwornItem(
+            new Item.Settings().maxDamage(1561).maxCount(1).registryKey(key("freedom_sworn")));
+
     public static void register() {
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "eyes_of_origin"), EYES_OF_ORIGIN);
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "origin_staff"), ORIGIN_STAFF);
@@ -61,6 +67,9 @@ public class ModItems {
 
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "amos_bow"), AMOS_BOW);
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "skyward_harp"), SKYWARD_HARP);
+
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "lumidouce_elegy"), LUMIDOUCE_ELEGY);
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "freedom_sworn"), FREEDOM_SWORN);
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(EYES_OF_ORIGIN);
@@ -78,6 +87,8 @@ public class ModItems {
             entries.add(CATALYST);
             entries.add(AMOS_BOW);
             entries.add(SKYWARD_HARP);
+            entries.add(LUMIDOUCE_ELEGY);
+            entries.add(FREEDOM_SWORN);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

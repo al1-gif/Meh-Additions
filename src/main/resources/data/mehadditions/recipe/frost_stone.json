@@ -1,16 +1,6 @@
 {
-  "type": "mehadditions:staff_base",
-  "pattern": [
-    " S ",
-    "SIS",
-    " S "
-  ],
-  "key": {
-    "S": "minecraft:stick",
-    "I": "minecraft:ice"
-  },
-  "result": {
-    "id": "mehadditions:frost_stone",
-    "count": 1
-  }
+  "type": "mehadditions:crafting_altar",
+  "first": ["minecraft:stone", "minecraft:granite", "minecraft:diorite", "minecraft:andesite", "minecraft:tuff", "minecraft:deepslate", "minecraft:cobblestone"],
+  "second": "minecraft:snow_block",
+  "result": { "id": "mehadditions:frost_stone", "count": 8 }
 }
