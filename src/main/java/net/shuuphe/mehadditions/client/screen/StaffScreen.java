@@ -62,7 +62,7 @@ public class StaffScreen extends Screen {
     private static final float ANIM_SPEED = 0.12f;
 
     private final List<Object> entries = new ArrayList<>();
-    private final ItemStack staffStack;
+    private ItemStack staffStack;
 
     private int scrollOffset    = 0;
     private boolean isDragging  = false;
@@ -130,7 +130,20 @@ public class StaffScreen extends Screen {
         return StaffDataHelper.hasRace(staffStack, race.getId());
     }
 
+    private void refreshStaffStack() {
+        var mc = net.minecraft.client.MinecraftClient.getInstance();
+        if (mc.player == null) return;
+        for (int i = 0; i < mc.player.getInventory().size(); i++) {
+            net.minecraft.item.ItemStack s = mc.player.getInventory().getStack(i);
+            if (s.getItem() instanceof net.shuuphe.mehadditions.item.OriginStaffItem) {
+                this.staffStack = s;
+                return;
+            }
+        }
+    }
+
     private void buildEntries() {
+        refreshStaffStack();
         entries.clear();
         List<Race> all = new ArrayList<>(RaceRegistry.getAll());
         all.removeIf(r -> r.getId().equals("other") || r.getId().equals("OtherRace"));

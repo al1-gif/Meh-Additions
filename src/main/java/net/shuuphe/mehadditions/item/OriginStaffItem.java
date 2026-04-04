@@ -47,8 +47,6 @@ public class OriginStaffItem extends Item {
                               TooltipDisplayComponent displayComponent,
                               Consumer<Text> textConsumer, TooltipType type) {
         textConsumer.accept(Text.literal("§7Right-click to open Origin Selector."));
-        int remaining = stack.getMaxDamage() - stack.getDamage();
-        textConsumer.accept(Text.literal("§8Charges: " + remaining + " / " + stack.getMaxDamage()));
         var unlocked = StaffDataHelper.getUnlockedRaces(stack);
         if (!unlocked.isEmpty()) {
             textConsumer.accept(Text.literal("§8Unlocked: " + String.join(", ", unlocked)));

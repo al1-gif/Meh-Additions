@@ -1,0 +1,16 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " S ",
+    "SIS",
+    " S "
+  ],
+  "key": {
+    "S": "minecraft:stick",
+    "I": "minecraft:ice"
+  },
+  "result": {
+    "id": "mehadditions:frost_stone",
+    "count": 1
+  }
+}

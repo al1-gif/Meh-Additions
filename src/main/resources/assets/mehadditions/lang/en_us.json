@@ -1,6 +1,27 @@
 {
   "item.mehadditions.eyes_of_origin": "Eyes of Origin",
-  "item.mehadditions.origin_staff": "Staff of Origins",
+  "item.mehadditions.origin_staff": "Origin Staff",
+  "item.mehadditions.catalyst": "Catalyst",
+
+  "item.mehadditions.fire_stone": "Fire Rune",
+  "item.mehadditions.frost_stone": "Frost Rune",
+  "item.mehadditions.lightning_stone": "Lightning Rune",
+
+  "item.mehadditions.small_rune_pouch": "Small Rune Pouch",
+  "item.mehadditions.medium_rune_pouch": "Medium Rune Pouch",
+  "item.mehadditions.large_rune_pouch": "Large Rune Pouch",
+
+  "item.mehadditions.amos_bow": "Amos' Bow",
+  "item.mehadditions.skyward_harp": "Skyward Harp",
+
+  "block.mehadditions.origins_table": "Meh Origins Table",
   "item.mehadditions.origins_table": "Meh Origins Table",
-  "block.mehadditions.origins_table": "Meh Origins Table"
+  "block.mehadditions.crafting_altar": "Crafting Altar",
+  "item.mehadditions.crafting_altar": "Crafting Altar",
+
+  "effect.mehadditions.frost": "Frost",
+
+  "container.mehadditions.small_rune_pouch": "Small Rune Pouch",
+  "container.mehadditions.medium_rune_pouch": "Medium Rune Pouch",
+  "container.mehadditions.large_rune_pouch": "Large Rune Pouch"
 }

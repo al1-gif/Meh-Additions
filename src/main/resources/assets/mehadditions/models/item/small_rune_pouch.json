@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": { "layer0": "mehadditions:item/small_rune_pouch" },
+  "overrides": [
+    { "predicate": { "filled": 0.0000001 }, "model": "mehadditions:item/small_rune_pouch_filled" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:cooldown",
+    "entries": [
+      {
+        "threshold": 0.001,
+        "model": {
+          "type": "minecraft:model",
+          "model": "mehadditions:item/catalyst_loading"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "mehadditions:item/catalyst_loaded"
+    }
+  }
+}

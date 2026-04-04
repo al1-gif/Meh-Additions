@@ -1,0 +1,16 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " S ",
+    "SFS",
+    " S "
+  ],
+  "key": {
+    "S": "minecraft:stick",
+    "F": "minecraft:flint"
+  },
+  "result": {
+    "id": "mehadditions:fire_stone",
+    "count": 1
+  }
+}

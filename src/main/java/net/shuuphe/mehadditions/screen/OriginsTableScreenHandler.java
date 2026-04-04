@@ -100,7 +100,8 @@ public class OriginsTableScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         return context.get((world, pos) ->
-                world.getBlockState(pos).isOf(ModBlocks.ORIGINS_TABLE) &&
+                (world.getBlockState(pos).isOf(ModBlocks.ORIGINS_TABLE) ||
+                        world.getBlockState(pos).isOf(ModBlocks.CRAFTING_ALTAR)) &&
                         player.canInteractWithBlockAt(pos, 4.0), true);
     }
 

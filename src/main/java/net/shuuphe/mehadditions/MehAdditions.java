@@ -11,6 +11,8 @@ public class MehAdditions implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModEffects.register();
+		ModEntityTypes.register();
 		ModItems.register();
 		ModBlocks.register();
 		ModRecipes.register();

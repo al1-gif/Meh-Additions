@@ -15,7 +15,7 @@ public class OriginsTableScreen extends HandledScreen<OriginsTableScreenHandler>
 
     public OriginsTableScreen(OriginsTableScreenHandler handler,
                               PlayerInventory inventory, Text title) {
-        super(handler, inventory, Text.literal("Meh Origins Table"));
+        super(handler, inventory, title);
         this.backgroundWidth  = 176;
         this.backgroundHeight = 166;
     }

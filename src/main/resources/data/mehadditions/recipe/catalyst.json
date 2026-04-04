@@ -1,0 +1,17 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " S ",
+    " B ",
+    "CCC"
+  ],
+  "key": {
+    "S": "minecraft:sculk_shrieker",
+    "B": "minecraft:bow",
+    "C": "minecraft:sculk_catalyst"
+  },
+  "result": {
+    "id": "mehadditions:catalyst",
+    "count": 1
+  }
+}

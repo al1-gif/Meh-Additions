@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SCS",
+    "C C",
+    "SCS"
+  ],
+  "key": {
+    "S": "minecraft:stick",
+    "C": "minecraft:copper_ingot"
+  },
+  "result": {
+    "id": "mehadditions:large_rune_pouch",
+    "count": 1
+  }
+}

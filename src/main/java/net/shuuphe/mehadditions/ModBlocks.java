@@ -9,6 +9,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.shuuphe.mehadditions.block.CraftingAltarBlock;
 import net.shuuphe.mehadditions.block.OriginsTableBlock;
 
 public class ModBlocks {
@@ -25,7 +26,16 @@ public class ModBlocks {
             AbstractBlock.Settings.create()
                     .strength(5.0f, 1200.0f)
                     .requiresTool()
+                    .nonOpaque()
                     .registryKey(blockKey("origins_table"))
+    );
+
+    public static final CraftingAltarBlock CRAFTING_ALTAR = new CraftingAltarBlock(
+            AbstractBlock.Settings.create()
+                    .strength(3.0f, 600.0f)
+                    .requiresTool()
+                    .nonOpaque()
+                    .registryKey(blockKey("crafting_altar"))
     );
 
     public static void register() {
@@ -35,5 +45,12 @@ public class ModBlocks {
                 Identifier.of(MehAdditions.MOD_ID, "origins_table"),
                 new BlockItem(ORIGINS_TABLE,
                         new Item.Settings().registryKey(itemKey("origins_table"))));
+
+        Registry.register(Registries.BLOCK,
+                Identifier.of(MehAdditions.MOD_ID, "crafting_altar"), CRAFTING_ALTAR);
+        Registry.register(Registries.ITEM,
+                Identifier.of(MehAdditions.MOD_ID, "crafting_altar"),
+                new BlockItem(CRAFTING_ALTAR,
+                        new Item.Settings().registryKey(itemKey("crafting_altar"))));
     }
 }

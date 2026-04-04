@@ -1,0 +1,16 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " S ",
+    "SRS",
+    " S "
+  ],
+  "key": {
+    "S": "minecraft:stick",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "mehadditions:lightning_stone",
+    "count": 1
+  }
+}

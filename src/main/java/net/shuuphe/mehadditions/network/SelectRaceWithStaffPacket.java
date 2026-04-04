@@ -1,6 +1,8 @@
 package net.shuuphe.mehadditions.network;
 
-import com.shuuphe.mehorigins.network.RaceSelectPacket;
+import com.shuuphe.mehorigins.race.Race;
+import com.shuuphe.mehorigins.RaceRegistry;
+import com.shuuphe.mehorigins.race.RaceManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
@@ -29,6 +31,7 @@ public record SelectRaceWithStaffPacket(String raceId) implements CustomPayload 
         ServerPlayNetworking.registerGlobalReceiver(ID, (payload, ctx) -> {
             ServerPlayerEntity player = ctx.player();
             ctx.server().execute(() -> {
+
                 var main = player.getMainHandStack();
                 var off  = player.getOffHandStack();
                 if (main.isOf(ModItems.ORIGIN_STAFF)) {
@@ -36,7 +39,12 @@ public record SelectRaceWithStaffPacket(String raceId) implements CustomPayload 
                 } else if (off.isOf(ModItems.ORIGIN_STAFF)) {
                     off.damage(1, player, player.getPreferredEquipmentSlot(off));
                 }
-                RaceSelectPacket.send(payload.raceId());
+
+                Race targetRace = RaceRegistry.getAll().stream()
+                        .filter(r -> r.getId().equals(payload.raceId()))
+                        .findFirst()
+                        .orElse(null);
+                RaceManager.setRace(player, payload.raceId());
             });
         });
     }

@@ -1,4 +1,7 @@
 {
   "replace": false,
-  "values": ["mehadditions:origins_table"]
+  "values": [
+    "mehadditions:origins_table",
+    "mehadditions:crafting_altar"
+  ]
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "S S",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "mehadditions:small_rune_pouch",
+    "count": 1
+  }
+}

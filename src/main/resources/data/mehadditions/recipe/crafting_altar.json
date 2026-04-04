@@ -1,0 +1,15 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    "SSS",
+    "S S",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "mehadditions:crafting_altar",
+    "count": 1
+  }
+}
