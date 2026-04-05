@@ -18,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StaffScreen extends Screen {
 
@@ -28,18 +29,36 @@ public class StaffScreen extends Screen {
     private static final Identifier TEX_SLOT      = Identifier.of("mehadditions", "textures/staffgui/slot.png");
     private static final Identifier TEX_ORB       = Identifier.of("mehadditions", "textures/staffgui/orb_of_origin.png");
 
-    private static final Identifier TEX_RACE_FAE      = Identifier.of("mehorigins", "textures/races/fae.png");
-    private static final Identifier TEX_RACE_PIXIE    = Identifier.of("mehorigins", "textures/races/pixie.png");
-    private static final Identifier TEX_RACE_ARACHNAE = Identifier.of("mehorigins", "textures/races/arachnae.png");
-    private static final Identifier TEX_RACE_ALFIQ    = Identifier.of("mehorigins", "textures/races/alfiq.png");
-    private static final Identifier TEX_RACE_VALKYRIE = Identifier.of("mehorigins", "textures/races/valkyrie.png");
-    private static final Identifier TEX_RACE_OGRE     = Identifier.of("mehorigins", "textures/races/ogre.png");
-    private static final Identifier TEX_RACE_SIREN    = Identifier.of("mehorigins", "textures/races/siren.png");
-    private static final Identifier TEX_RACE_BANSHEE  = Identifier.of("mehorigins", "textures/races/banshee.png");
-    private static final Identifier TEX_RACE_WOODELF  = Identifier.of("mehorigins", "textures/races/wood_elf.png");
-    private static final Identifier TEX_RACE_DWARF    = Identifier.of("mehorigins", "textures/races/dwarf.png");
-    private static final Identifier TEX_RACE_HIGHELF  = Identifier.of("mehorigins", "textures/races/high_elf.png");
-    private static final Identifier TEX_RACE_REVENANT = Identifier.of("mehorigins", "textures/races/revenant.png");
+    /**
+     * Static icon map — replaces the switch-case in drawRaceIcon.
+     * Initialised once at class-load; no per-frame allocation.
+     */
+    private static final Map<String, Identifier> RACE_ICONS = Map.ofEntries(
+        Map.entry("fae",      Identifier.of("mehorigins", "textures/races/fae.png")),
+        Map.entry("pixie",    Identifier.of("mehorigins", "textures/races/pixie.png")),
+        Map.entry("arachnae", Identifier.of("mehorigins", "textures/races/arachnae.png")),
+        Map.entry("alfiq",    Identifier.of("mehorigins", "textures/races/alfiq.png")),
+        Map.entry("valkyrie", Identifier.of("mehorigins", "textures/races/valkyrie.png")),
+        Map.entry("ogre",     Identifier.of("mehorigins", "textures/races/ogre.png")),
+        Map.entry("siren",    Identifier.of("mehorigins", "textures/races/siren.png")),
+        Map.entry("banshee",  Identifier.of("mehorigins", "textures/races/banshee.png")),
+        Map.entry("wood_elf", Identifier.of("mehorigins", "textures/races/wood_elf.png")),
+        Map.entry("dwarf",    Identifier.of("mehorigins", "textures/races/dwarf.png")),
+        Map.entry("high_elf", Identifier.of("mehorigins", "textures/races/high_elf.png")),
+        Map.entry("revenant", Identifier.of("mehorigins", "textures/races/revenant.png"))
+    );
+
+    /**
+     * Static item-stack fallbacks — created once, never per-frame.
+     */
+    private static final Map<String, ItemStack> RACE_ITEMS = Map.of(
+        "enderian", new ItemStack(Items.ENDER_PEARL),
+        "elytrian", new ItemStack(Items.ELYTRA),
+        "shulk",    new ItemStack(Items.SHULKER_SHELL),
+        "avian",    new ItemStack(Items.FEATHER),
+        "human",    new ItemStack(Items.PLAYER_HEAD)
+    );
+    private static final ItemStack FALLBACK_ITEM = new ItemStack(Items.BARRIER);
 
     private static final int PANEL_W    = 230;
     private static final int PANEL_H    = 182;
@@ -73,6 +92,9 @@ public class StaffScreen extends Screen {
     private float  expandProgress = 0f;
     private boolean expanding     = false;
 
+    /** Cached total content height — invalidated whenever entries or expansion changes. */
+    private int cachedContentHeight = -1;
+
     public StaffScreen(ItemStack staffStack) {
         super(Text.literal("Origin Selector"));
         this.staffStack = staffStack;
@@ -101,7 +123,12 @@ public class StaffScreen extends Screen {
         return (int)(expandProgress * descMaxHeight(race));
     }
 
+    private void invalidateContentHeight() {
+        cachedContentHeight = -1;
+    }
+
     private int totalContentHeight() {
+        if (cachedContentHeight >= 0) return cachedContentHeight;
         int h = 0;
         for (Object e : entries) {
             if (e instanceof Text) {
@@ -114,6 +141,7 @@ public class StaffScreen extends Screen {
                 }
             }
         }
+        cachedContentHeight = h;
         return h;
     }
 
@@ -145,6 +173,8 @@ public class StaffScreen extends Screen {
     private void buildEntries() {
         refreshStaffStack();
         entries.clear();
+        invalidateContentHeight();
+
         List<Race> all = new ArrayList<>(RaceRegistry.getAll());
         all.removeIf(r -> r.getId().equals("other") || r.getId().equals("OtherRace"));
 
@@ -207,11 +237,8 @@ public class StaffScreen extends Screen {
                         final Race r = race;
                         btn = ButtonWidget.builder(
                                         Text.literal("Recipe"),
-                                        b -> {
-                                            String anchor = "recipe_" + r.getId();
-                                            net.minecraft.client.MinecraftClient.getInstance()
-                                                    .setScreen(new AdditionsGuideScreen(anchor));
-                                        })
+                                        b -> net.minecraft.client.MinecraftClient.getInstance()
+                                                .setScreen(new AdditionsGuideScreen("recipe_" + r.getId())))
                                 .dimensions(btnX(), btnY, BTN_W, BTN_H)
                                 .build();
                     }
@@ -254,6 +281,7 @@ public class StaffScreen extends Screen {
             if (isOverSlot(mx, my)) {
                 float frac = (float)((my - slotY()) / (slotH() - SCROLL_H));
                 scrollOffset = (int) Math.max(0, Math.min(maxScroll(), frac * maxScroll()));
+                invalidateContentHeight();
                 rebuildButtons();
                 return true;
             }
@@ -293,6 +321,7 @@ public class StaffScreen extends Screen {
             expandProgress = 0f;
             expanding = true;
         }
+        invalidateContentHeight();
     }
 
     @Override
@@ -331,44 +360,13 @@ public class StaffScreen extends Screen {
     }
 
     private void drawRaceIcon(DrawContext context, Race race, int x, int y) {
-        switch (race.getId()) {
-            case "fae"      -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_FAE,      x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "pixie"    -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_PIXIE,    x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "arachnae" -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_ARACHNAE, x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "alfiq"    -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_ALFIQ,    x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "valkyrie" -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_VALKYRIE, x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "ogre"     -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_OGRE,     x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "siren"    -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_SIREN,    x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "banshee"  -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_BANSHEE,  x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "wood_elf" -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_WOODELF,  x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "dwarf"    -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_DWARF,    x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "high_elf" -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_HIGHELF,  x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            case "revenant" -> context.drawTexture(RenderPipelines.GUI_TEXTURED,
-                    TEX_RACE_REVENANT, x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
-            default -> context.drawItem(getRaceItem(race), x, y);
+        Identifier icon = RACE_ICONS.get(race.getId());
+        if (icon != null) {
+            context.drawTexture(RenderPipelines.GUI_TEXTURED,
+                    icon, x, y, 0f, 0f, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+        } else {
+            context.drawItem(RACE_ITEMS.getOrDefault(race.getId(), FALLBACK_ITEM), x, y);
         }
-    }
-
-    private ItemStack getRaceItem(Race race) {
-        return switch (race.getId()) {
-            case "enderian" -> new ItemStack(Items.ENDER_PEARL);
-            case "elytrian" -> new ItemStack(Items.ELYTRA);
-            case "shulk"    -> new ItemStack(Items.SHULKER_SHELL);
-            case "avian"    -> new ItemStack(Items.FEATHER);
-            case "human"    -> new ItemStack(Items.PLAYER_HEAD);
-            default         -> new ItemStack(Items.BARRIER);
-        };
     }
 
     @Override
@@ -382,9 +380,11 @@ public class StaffScreen extends Screen {
         if (expandedRaceId != null) {
             if (expanding && expandProgress < 1f) {
                 expandProgress = Math.min(1f, expandProgress + ANIM_SPEED);
+                invalidateContentHeight();
                 needsRebuild = true;
             } else if (!expanding && expandProgress > 0f) {
                 expandProgress = Math.max(0f, expandProgress - ANIM_SPEED);
+                invalidateContentHeight();
                 needsRebuild = true;
                 if (expandProgress == 0f) expandedRaceId = null;
             }

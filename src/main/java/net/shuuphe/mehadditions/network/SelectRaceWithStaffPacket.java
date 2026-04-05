@@ -1,6 +1,5 @@
 package net.shuuphe.mehadditions.network;
 
-import com.shuuphe.mehorigins.race.Race;
 import com.shuuphe.mehorigins.RaceRegistry;
 import com.shuuphe.mehorigins.race.RaceManager;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -31,7 +30,7 @@ public record SelectRaceWithStaffPacket(String raceId) implements CustomPayload 
         ServerPlayNetworking.registerGlobalReceiver(ID, (payload, ctx) -> {
             ServerPlayerEntity player = ctx.player();
             ctx.server().execute(() -> {
-
+                // Damage whichever hand holds the staff
                 var main = player.getMainHandStack();
                 var off  = player.getOffHandStack();
                 if (main.isOf(ModItems.ORIGIN_STAFF)) {
@@ -40,11 +39,12 @@ public record SelectRaceWithStaffPacket(String raceId) implements CustomPayload 
                     off.damage(1, player, player.getPreferredEquipmentSlot(off));
                 }
 
-                Race targetRace = RaceRegistry.getAll().stream()
-                        .filter(r -> r.getId().equals(payload.raceId()))
-                        .findFirst()
-                        .orElse(null);
-                RaceManager.setRace(player, payload.raceId());
+                // Validate race exists before applying (removed dead targetRace variable)
+                boolean valid = RaceRegistry.getAll().stream()
+                        .anyMatch(r -> r.getId().equals(payload.raceId()));
+                if (valid) {
+                    RaceManager.setRace(player, payload.raceId());
+                }
             });
         });
     }

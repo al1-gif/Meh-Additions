@@ -5,11 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
@@ -19,11 +16,12 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.shuuphe.mehadditions.screen.CraftingAltarScreenHandler;
-import net.shuuphe.mehadditions.screen.OriginsTableScreenHandler;
 
 public class CraftingAltarBlock extends HorizontalFacingBlock {
 
     public static final MapCodec<CraftingAltarBlock> CODEC = createCodec(CraftingAltarBlock::new);
+
+    private static final Text TITLE = Text.literal("Crafting Altar");
 
     public CraftingAltarBlock(Settings settings) {
         super(settings);
@@ -49,17 +47,11 @@ public class CraftingAltarBlock extends HorizontalFacingBlock {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos,
                                  PlayerEntity player, BlockHitResult hit) {
         if (world instanceof ServerWorld) {
-            ScreenHandlerContext ctx = ScreenHandlerContext.create(world, pos);
-            player.openHandledScreen(new NamedScreenHandlerFactory() {
-                @Override
-                public Text getDisplayName() {
-                    return Text.literal("Crafting Altar");
-                }
-                @Override
-                public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity p) {
-                    return new CraftingAltarScreenHandler(syncId, inv, ctx);
-                }
-            });
+            var ctx = net.minecraft.screen.ScreenHandlerContext.create(world, pos);
+            player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
+                    (syncId, inv, p) -> new CraftingAltarScreenHandler(syncId, inv, ctx),
+                    TITLE
+            ));
         }
         return ActionResult.SUCCESS;
     }

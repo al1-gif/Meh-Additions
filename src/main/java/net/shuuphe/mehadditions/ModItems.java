@@ -1,6 +1,9 @@
 package net.shuuphe.mehadditions;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -10,6 +13,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.shuuphe.mehadditions.item.*;
 import net.shuuphe.mehadditions.util.RuneType;
+import net.minecraft.component.type.AttributeModifiersComponent;
 
 public class ModItems {
 
@@ -51,7 +55,40 @@ public class ModItems {
             new Item.Settings().maxDamage(512).maxCount(1).registryKey(key("lumidouce_elegy")));
 
     public static final FreedomSwornItem FREEDOM_SWORN = new FreedomSwornItem(
-            new Item.Settings().maxDamage(1561).maxCount(1).registryKey(key("freedom_sworn")));
+            new Item.Settings()
+                    .maxDamage(1561)
+                    .maxCount(1)
+                    .registryKey(key("freedom_sworn"))
+                    .attributeModifiers(
+                            AttributeModifiersComponent.builder()
+                                    .add(EntityAttributes.ATTACK_DAMAGE,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .add(EntityAttributes.ATTACK_SPEED,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -2.4,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .build()
+                    ));
+
+    public static final CrimsonMoonsSemblanceItem CRIMSON_MOONS_SEMBLANCE = new CrimsonMoonsSemblanceItem(
+            new Item.Settings()
+                    .maxDamage(2031)
+                    .maxCount(1)
+                    .registryKey(key("crimson_moons_semblance"))
+                    .attributeModifiers(
+                            AttributeModifiersComponent.builder()
+                                    .add(EntityAttributes.ATTACK_DAMAGE,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .add(EntityAttributes.ATTACK_SPEED,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -2.4,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .build()
+                    ));
 
     public static void register() {
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "eyes_of_origin"), EYES_OF_ORIGIN);
@@ -70,6 +107,7 @@ public class ModItems {
 
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "lumidouce_elegy"), LUMIDOUCE_ELEGY);
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "freedom_sworn"), FREEDOM_SWORN);
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "crimson_moons_semblance"), CRIMSON_MOONS_SEMBLANCE);
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(EYES_OF_ORIGIN);
@@ -89,6 +127,7 @@ public class ModItems {
             entries.add(SKYWARD_HARP);
             entries.add(LUMIDOUCE_ELEGY);
             entries.add(FREEDOM_SWORN);
+            entries.add(CRIMSON_MOONS_SEMBLANCE);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

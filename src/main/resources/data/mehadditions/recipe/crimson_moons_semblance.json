@@ -1,0 +1,16 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    "SS ",
+    "BBB",
+    " B "
+  ],
+  "key": {
+    "S": "minecraft:redstone",
+    "B": "minecraft:blaze_rod"
+  },
+  "result": {
+    "id": "mehadditions:crimson_moons_semblance",
+    "count": 1
+  }
+}

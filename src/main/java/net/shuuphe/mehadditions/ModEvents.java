@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.loot.LootPool;
@@ -11,7 +12,11 @@ import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+
+import java.util.List;
 
 public class ModEvents {
 
@@ -25,16 +30,31 @@ public class ModEvents {
         });
 
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            if (player.getStackInHand(hand).isOf(ModItems.FREEDOM_SWORN)
-                    && world instanceof ServerWorld serverWorld) {
-                boolean wasInvulnerable = player.isInvulnerable();
-                player.setInvulnerable(true);
+            if (player.getStackInHand(hand).isOf(ModItems.CRIMSON_MOONS_SEMBLANCE)
+                    && world instanceof ServerWorld serverWorld
+                    && entity instanceof LivingEntity target) {
 
-                LightningEntity lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, serverWorld);
-                lightning.refreshPositionAfterTeleport(entity.getX(), entity.getY(), entity.getZ());
-                serverWorld.spawnEntity(lightning);
+                target.setOnFireFor(5);
 
-                serverWorld.getServer().execute(() -> player.setInvulnerable(wasInvulnerable));
+                int hitCount = 1;
+
+                List<LivingEntity> swept = world.getEntitiesByClass(
+                        LivingEntity.class,
+                        player.getBoundingBox().expand(3.5),
+                        e -> e != player && e != target && e.isAlive()
+                );
+
+                for (LivingEntity nearby : swept) {
+                    nearby.damage(serverWorld, serverWorld.getDamageSources().playerAttack(player), 6.0f);
+                    nearby.setOnFireFor(5);
+                    hitCount++;
+                }
+
+                player.heal(hitCount * 6.0f);
+
+                serverWorld.playSound(null, player.getX(), player.getY(), player.getZ(),
+                        SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS,
+                        1.0f, 0.8f + serverWorld.getRandom().nextFloat() * 0.4f);
             }
             return ActionResult.PASS;
         });

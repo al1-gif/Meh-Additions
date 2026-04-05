@@ -20,7 +20,7 @@ public class StaffDataHelper {
         NbtCompound nbt = data.copyNbt();
         if (!nbt.contains(KEY)) return new ArrayList<>();
         NbtList list = nbt.getListOrEmpty(KEY);
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<>(list.size());
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) instanceof NbtString s) {
                 s.asString().ifPresent(result::add);
@@ -29,19 +29,48 @@ public class StaffDataHelper {
         return result;
     }
 
+    /**
+     * Fast containment check — scans the raw NBT list directly
+     * instead of deserializing it into a full List<String>.
+     */
     public static boolean hasRace(ItemStack stack, String raceId) {
-        return getUnlockedRaces(stack).contains(raceId);
+        var data = stack.get(DataComponentTypes.CUSTOM_DATA);
+        if (data == null) return false;
+        NbtCompound nbt = data.copyNbt();
+        if (!nbt.contains(KEY)) return false;
+        NbtList list = nbt.getListOrEmpty(KEY);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof NbtString s
+                    && s.asString().map(raceId::equals).orElse(false))
+                return true;
+        }
+        return false;
     }
 
     public static void addRace(ItemStack stack, String raceId) {
+        if (hasRace(stack, raceId)) return;
         List<String> existing = getUnlockedRaces(stack);
-        if (existing.contains(raceId)) return;
         existing.add(raceId);
         save(stack, existing);
     }
 
+    /**
+     * Copies all unlocked races from {@code from} to {@code to} in a single
+     * NBT write instead of one write per race.
+     */
     public static void copyFrom(ItemStack from, ItemStack to) {
-        for (String race : getUnlockedRaces(from)) addRace(to, race);
+        List<String> source = getUnlockedRaces(from);
+        if (source.isEmpty()) return;
+
+        List<String> dest = getUnlockedRaces(to);
+        boolean changed = false;
+        for (String race : source) {
+            if (!dest.contains(race)) {
+                dest.add(race);
+                changed = true;
+            }
+        }
+        if (changed) save(to, dest);
     }
 
     private static void save(ItemStack stack, List<String> races) {

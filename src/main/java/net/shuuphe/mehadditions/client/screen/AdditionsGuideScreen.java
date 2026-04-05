@@ -143,8 +143,6 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
         anchor("recipe_revenant"); stat(COL_YELLOW, "  Revenant"); image("revenant"); gap();
         anchor("recipe_shulk");    stat(COL_YELLOW, "  Shulk");    image("shulk");    gap();
 
-        anchor("recipe_shulk");    stat(COL_YELLOW, "  Shulk");    image("shulk");    gap();
-
         spacer();
         stat(COL_GREEN, "════  Tools  ════");
         spacer();
@@ -156,6 +154,7 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
         stat(COL_YELLOW, "  Amos Bow");          image("amos_bow");        gap();
         stat(COL_YELLOW, "  Small Rune Pouch");  image("small_pouch");     gap();
         stat(COL_YELLOW, "  Large Rune Pouch");  image("large_pouch");     gap();
+        stat(COL_YELLOW, "  Crimson Moon's Semblance");  image("crimson_moons_semblance");     gap();
 
         spacer();
         stat(COL_GREEN, "════  Crafting Altar  ════");

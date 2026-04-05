@@ -16,8 +16,8 @@ import net.shuuphe.mehadditions.ModBlocks;
 import net.shuuphe.mehadditions.ModRecipes;
 import net.shuuphe.mehadditions.ModScreenHandlers;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OriginsTableScreenHandler extends ScreenHandler {
 
@@ -38,45 +38,31 @@ public class OriginsTableScreenHandler extends ScreenHandler {
         this.addSlot(new CraftingResultSlot(playerInventory.player, craftInput,
                 craftResult, 0, 124, 35));
 
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                this.addSlot(new Slot(craftInput,
-                        col + row * 3,
-                        30 + col * 18,
-                        17 + row * 18));
-            }
-        }
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 3; col++)
+                this.addSlot(new Slot(craftInput, col + row * 3, 30 + col * 18, 17 + row * 18));
 
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 9; col++) {
-                this.addSlot(new Slot(playerInventory,
-                        col + row * 9 + 9,
-                        8 + col * 18,
-                        84 + row * 18));
-            }
-        }
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 9; col++)
+                this.addSlot(new Slot(playerInventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
 
-        for (int col = 0; col < 9; col++) {
-            this.addSlot(new Slot(playerInventory,
-                    col,
-                    8 + col * 18,
-                    142));
-        }
+        for (int col = 0; col < 9; col++)
+            this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
     }
+
     @Override
     public void onContentChanged(Inventory inventory) {
         super.onContentChanged(inventory);
         context.run((world, pos) -> {
-            if (!(world instanceof ServerWorld sw)) return;
-            updateCraftResult(sw);
+            if (world instanceof ServerWorld sw) updateCraftResult(sw);
         });
     }
 
     private void updateCraftResult(ServerWorld world) {
-        var input = CraftingRecipeInput.create(3, 3,
-                IntStream.range(0, 9)
-                        .mapToObj(craftInput::getStack)
-                        .collect(Collectors.toList()));
+        // Build input list with pre-sized ArrayList to avoid resizing
+        List<ItemStack> stacks = new ArrayList<>(9);
+        for (int i = 0; i < 9; i++) stacks.add(craftInput.getStack(i));
+        var input = CraftingRecipeInput.create(3, 3, stacks);
 
         var upgrade = world.getRecipeManager()
                 .getAllMatches(ModRecipes.ORIGINS_TABLE_UPGRADE, input, world)
@@ -95,7 +81,6 @@ public class OriginsTableScreenHandler extends ScreenHandler {
                 .map(r -> r.value().craft(input, world.getRegistryManager()))
                 .orElse(ItemStack.EMPTY));
     }
-
 
     @Override
     public boolean canUse(PlayerEntity player) {
