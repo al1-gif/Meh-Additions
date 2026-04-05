@@ -33,28 +33,34 @@ public class ModEvents {
             if (player.getStackInHand(hand).isOf(ModItems.CRIMSON_MOONS_SEMBLANCE)
                     && world instanceof ServerWorld serverWorld
                     && entity instanceof LivingEntity target) {
-
                 target.setOnFireFor(5);
-
                 int hitCount = 1;
-
                 List<LivingEntity> swept = world.getEntitiesByClass(
                         LivingEntity.class,
                         player.getBoundingBox().expand(3.5),
                         e -> e != player && e != target && e.isAlive()
                 );
-
                 for (LivingEntity nearby : swept) {
                     nearby.damage(serverWorld, serverWorld.getDamageSources().playerAttack(player), 6.0f);
                     nearby.setOnFireFor(5);
                     hitCount++;
                 }
-
                 player.heal(hitCount * 6.0f);
-
                 serverWorld.playSound(null, player.getX(), player.getY(), player.getZ(),
                         SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS,
                         1.0f, 0.8f + serverWorld.getRandom().nextFloat() * 0.4f);
+            }
+            return ActionResult.PASS;
+        });
+
+        AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+            if (player.getStackInHand(hand).isOf(ModItems.FREEDOM_SWORN)
+                    && world instanceof ServerWorld serverWorld
+                    && entity instanceof LivingEntity target) {
+
+                LightningEntity lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
+                lightning.setPosition(target.getX(), target.getY(), target.getZ());
+                serverWorld.spawnEntity(lightning);
             }
             return ActionResult.PASS;
         });
