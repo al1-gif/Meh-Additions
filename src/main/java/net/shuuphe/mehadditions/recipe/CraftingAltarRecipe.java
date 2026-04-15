@@ -37,12 +37,10 @@ public class CraftingAltarRecipe implements Recipe<CraftingAltarInput> {
         return result.copy();
     }
 
-    // NOT @Override — Recipe interface no longer declares getResult()
     public ItemStack getResult() { return result; }
 
     @Override
     public IngredientPlacement getIngredientPlacement() {
-        // forShapeless replaces the removed IngredientPlacement.of(List)
         return IngredientPlacement.forShapeless(List.of(first, second));
     }
 
