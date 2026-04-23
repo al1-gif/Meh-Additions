@@ -1,8 +1,5 @@
 {
   "variants": {
-    "facing=north": { "model": "mehadditions:block/crafting_altar" },
-    "facing=south": { "model": "mehadditions:block/crafting_altar", "y": 180 },
-    "facing=east":  { "model": "mehadditions:block/crafting_altar", "y": 90  },
-    "facing=west":  { "model": "mehadditions:block/crafting_altar", "y": 270 }
+    "": { "model": "mehadditions:block/crafting_altar" }
   }
 }

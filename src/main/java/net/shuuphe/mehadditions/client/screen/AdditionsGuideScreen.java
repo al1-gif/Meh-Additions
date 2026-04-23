@@ -142,6 +142,7 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
         anchor("recipe_pixie");    stat(COL_YELLOW, "  Pixie");    image("pixie");    gap();
         anchor("recipe_revenant"); stat(COL_YELLOW, "  Revenant"); image("revenant"); gap();
         anchor("recipe_shulk");    stat(COL_YELLOW, "  Shulk");    image("shulk");    gap();
+        anchor("recipe_valkyrie"); stat(COL_YELLOW,   "  Valkyrie"); image("valkyrie"); gap();
 
         spacer();
         stat(COL_GREEN, "════  Tools  ════");
