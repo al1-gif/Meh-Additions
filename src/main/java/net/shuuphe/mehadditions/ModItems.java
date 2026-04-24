@@ -71,6 +71,59 @@ public class ModItems {
                                             AttributeModifierSlot.MAINHAND)
                                     .build()
                     ));
+    public static final TranceItem TRANCE = new TranceItem(
+            new Item.Settings().maxDamage(512).maxCount(1).registryKey(key("trance")));
+    public static final Hanafubuki HANAFUBUKI = new Hanafubuki(
+            new Item.Settings()
+                    .maxDamage(1561)
+                    .maxCount(1)
+                    .registryKey(key("hanafubuki"))
+                    .attributeModifiers(
+                            AttributeModifiersComponent.builder()
+                                    .add(EntityAttributes.ATTACK_DAMAGE,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .add(EntityAttributes.ATTACK_SPEED,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -2.4,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .build()
+                    ));
+    public static final Bloodbath BLOODBATH = new Bloodbath(
+            new Item.Settings()
+                    .maxDamage(500)
+                    .maxCount(1)
+                    .registryKey(key("bloodbath"))
+                    .attributeModifiers(
+                            AttributeModifiersComponent.builder()
+                                    .add(EntityAttributes.ATTACK_DAMAGE,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .add(EntityAttributes.ATTACK_SPEED,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -3.4,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .build()
+                    ));
+    public static final BluntForceItem BLUNT_FORCE = new BluntForceItem(
+            new Item.Settings()
+                    .maxDamage(1561)
+                    .maxCount(1)
+                    .registryKey(key("blunt_force"))
+                    .attributeModifiers(
+                            AttributeModifiersComponent.builder()
+                                    .add(EntityAttributes.ATTACK_DAMAGE,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .add(EntityAttributes.ATTACK_SPEED,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -2.4,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .build()
+                    ));
 
     public static final CrimsonMoonsSemblanceItem CRIMSON_MOONS_SEMBLANCE = new CrimsonMoonsSemblanceItem(
             new Item.Settings()
@@ -109,6 +162,11 @@ public class ModItems {
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "freedom_sworn"), FREEDOM_SWORN);
         Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "crimson_moons_semblance"), CRIMSON_MOONS_SEMBLANCE);
 
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "trance"), TRANCE);
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "hanafubuki"), HANAFUBUKI);
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "bloodbath"), BLOODBATH);
+        Registry.register(Registries.ITEM, Identifier.of(MehAdditions.MOD_ID, "blunt_force"), BLUNT_FORCE);
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(EYES_OF_ORIGIN);
             entries.add(ORIGIN_STAFF);
@@ -128,6 +186,10 @@ public class ModItems {
             entries.add(LUMIDOUCE_ELEGY);
             entries.add(FREEDOM_SWORN);
             entries.add(CRIMSON_MOONS_SEMBLANCE);
+            entries.add(TRANCE);
+            entries.add(HANAFUBUKI);
+            entries.add(BLOODBATH);
+            entries.add(BLUNT_FORCE);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

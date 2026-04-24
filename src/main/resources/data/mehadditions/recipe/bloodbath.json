@@ -1,0 +1,18 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " N ",
+    "IMI",
+    " B "
+  ],
+  "key": {
+    "N": "minecraft:netherite_scrap",
+    "I": "minecraft:iron_ingot",
+    "M": "minecraft:mace",
+    "B": "minecraft:breeze_rod"
+  },
+  "result": {
+    "id": "mehadditions:bloodbath",
+    "count": 1
+  }
+}

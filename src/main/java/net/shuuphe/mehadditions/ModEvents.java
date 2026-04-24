@@ -9,8 +9,10 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
+import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -20,12 +22,67 @@ import java.util.List;
 
 public class ModEvents {
 
+    private static LootPool.Builder createRunePool(float min, float max) {
+        return LootPool.builder()
+                .rolls(UniformLootNumberProvider.create(min, max))
+                .with(ItemEntry.builder(ModItems.FIRE_STONE))
+                .with(ItemEntry.builder(ModItems.LIGHTNING_STONE))
+                .with(ItemEntry.builder(ModItems.FROST_STONE));
+    }
+
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (LootTables.BURIED_TREASURE_CHEST.equals(key)) {
                 tableBuilder.pool(LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
                         .with(ItemEntry.builder(ModItems.EYES_OF_ORIGIN)));
+            }
+        });
+
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (!source.isBuiltin()) return;
+
+            LootPool.Builder pool = null;
+
+            if (key.equals(LootTables.BURIED_TREASURE_CHEST) || key.equals(LootTables.VILLAGE_TOOLSMITH_CHEST) || key.equals(LootTables.VILLAGE_WEAPONSMITH_CHEST) || key.equals(LootTables.VILLAGE_ARMORER_CHEST) || key.equals(LootTables.VILLAGE_CARTOGRAPHER_CHEST)) {
+                pool = createRunePool(3, 4);
+            }
+            else if (key.equals(LootTables.SHIPWRECK_TREASURE_CHEST)) {
+                pool = createRunePool(5, 6);
+            }
+            else if (key.equals(LootTables.JUNGLE_TEMPLE_CHEST) || key.equals(LootTables.RUINED_PORTAL_CHEST) || key.equals(LootTables.PILLAGER_OUTPOST_CHEST)) {
+                pool = createRunePool(2, 3);
+            }
+            else if (key.equals(LootTables.ANCIENT_CITY_CHEST)) {
+                pool = LootPool.builder()
+                        .rolls(UniformLootNumberProvider.create(7, 9))
+                        .conditionally(RandomChanceLootCondition.builder(0.4f))
+                        .with(ItemEntry.builder(ModItems.FROST_STONE))
+                        .with(ItemEntry.builder(ModItems.LIGHTNING_STONE))
+                        .with(ItemEntry.builder(ModItems.FIRE_STONE));
+            }
+            else if (key.equals(LootTables.IGLOO_CHEST_CHEST) || key.equals(LootTables.BASTION_BRIDGE_CHEST) || key.equals(LootTables.BASTION_TREASURE_CHEST)) {
+                pool = createRunePool(2, 3);
+            }
+            else if (key.equals(LootTables.DESERT_PYRAMID_CHEST)) {
+                pool = LootPool.builder()
+                        .rolls(UniformLootNumberProvider.create(3, 5))
+                        .conditionally(RandomChanceLootCondition.builder(0.6f))
+                        .with(ItemEntry.builder(ModItems.FIRE_STONE))
+                        .with(ItemEntry.builder(ModItems.LIGHTNING_STONE))
+                        .with(ItemEntry.builder(ModItems.FROST_STONE));
+            }
+            else if (key.equals(LootTables.END_CITY_TREASURE_CHEST) || key.equals(LootTables.SIMPLE_DUNGEON_CHEST) || key.equals(LootTables.STRONGHOLD_LIBRARY_CHEST)) {
+                pool = LootPool.builder()
+                        .rolls(UniformLootNumberProvider.create(2, 3))
+                        .conditionally(RandomChanceLootCondition.builder(0.4f))
+                        .with(ItemEntry.builder(ModItems.FIRE_STONE))
+                        .with(ItemEntry.builder(ModItems.LIGHTNING_STONE))
+                        .with(ItemEntry.builder(ModItems.FROST_STONE));
+            }
+
+            if (pool != null) {
+                tableBuilder.pool(pool);
             }
         });
 

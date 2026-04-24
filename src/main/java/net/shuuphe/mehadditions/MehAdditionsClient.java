@@ -7,9 +7,10 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.entity.ArrowEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.shuuphe.mehadditions.client.HudRenderer;
+import net.shuuphe.mehadditions.client.screen.AdditionsGuideScreen;
 import net.shuuphe.mehadditions.client.screen.CraftingAltarScreen;
 import net.shuuphe.mehadditions.client.screen.OriginsTableScreen;
-import net.shuuphe.mehadditions.client.screen.AdditionsGuideScreen;
 import net.shuuphe.mehadditions.item.OriginStaffItem;
 
 public class MehAdditionsClient implements ClientModInitializer {
@@ -28,5 +29,7 @@ public class MehAdditionsClient implements ClientModInitializer {
                 client.setScreen(new AdditionsGuideScreen());
             }
         });
+
+        HudRenderer.register();
     }
 }
