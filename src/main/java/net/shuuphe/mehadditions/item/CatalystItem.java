@@ -30,69 +30,49 @@ public class CatalystItem extends Item {
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
+        if (user.getItemCooldownManager().isCoolingDown(stack)) return ActionResult.PASS;
+        if (!(world instanceof ServerWorld serverWorld)) return ActionResult.SUCCESS;
 
-        if (user.getItemCooldownManager().isCoolingDown(stack)) {
-            return ActionResult.PASS;
+        world.playSound(null, user.getX(), user.getY(), user.getZ(),
+                SoundEvents.ENTITY_WARDEN_SONIC_CHARGE, SoundCategory.PLAYERS, 3.0f, 1.0f);
+        world.playSound(null, user.getX(), user.getY(), user.getZ(),
+                SoundEvents.ENTITY_WARDEN_SONIC_BOOM, SoundCategory.PLAYERS, 3.0f, 1.0f);
+
+        var lookVec = user.getRotationVector();
+        double ex = user.getX() + lookVec.x * 2;
+        double ey = user.getEyeY();
+        double ez = user.getZ() + lookVec.z * 2;
+
+        serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM, ex, ey, ez, 1, 0, 0, 0, 0);
+
+        for (int i = 1; i <= 5; i++) {
+            serverWorld.spawnParticles(ParticleTypes.POOF,
+                    user.getX() + lookVec.x * (i * 1.5),
+                    user.getEyeY(),
+                    user.getZ() + lookVec.z * (i * 1.5),
+                    4, 0.3, 0.3, 0.3, 0.05);
         }
 
-        if (!world.isClient()) {
-            ServerWorld serverWorld = (ServerWorld) world;
+        for (LivingEntity target : world.getEntitiesByClass(
+                LivingEntity.class,
+                user.getBoundingBox().expand(SONIC_RANGE),
+                e -> e != user && e.isAlive())) {
 
-            world.playSound(null, user.getX(), user.getY(), user.getZ(),
-                    SoundEvents.ENTITY_WARDEN_SONIC_CHARGE,
-                    SoundCategory.PLAYERS, 3.0f, 1.0f);
-            world.playSound(null, user.getX(), user.getY(), user.getZ(),
-                    SoundEvents.ENTITY_WARDEN_SONIC_BOOM,
-                    SoundCategory.PLAYERS, 3.0f, 1.0f);
+            Vec3d toTarget = new Vec3d(
+                    target.getX() - user.getX(),
+                    target.getY() - user.getY(),
+                    target.getZ() - user.getZ()
+            ).normalize();
 
-            var lookVec = user.getRotationVector();
-            double ex = user.getX() + lookVec.x * 2;
-            double ey = user.getEyeY();
-            double ez = user.getZ() + lookVec.z * 2;
-
-            serverWorld.spawnParticles(ParticleTypes.SONIC_BOOM,
-                    ex, ey, ez,
-                    1,
-                    0, 0, 0,
-                    0);
-
-            for (int i = 1; i <= 5; i++) {
-                serverWorld.spawnParticles(ParticleTypes.POOF,
-                        user.getX() + lookVec.x * (i * 1.5),
-                        user.getEyeY(),
-                        user.getZ() + lookVec.z * (i * 1.5),
-                        4, 0.3, 0.3, 0.3, 0.05);
+            if (toTarget.dotProduct(lookVec) > CONE_DOT) {
+                target.damage(serverWorld, serverWorld.getDamageSources().sonicBoom(user), SONIC_DAMAGE);
+                target.addVelocity(lookVec.x * 2.0, 0.4, lookVec.z * 2.0);
+                target.velocityDirty = true;
             }
-
-            List<LivingEntity> targets = world.getEntitiesByClass(
-                    LivingEntity.class,
-                    user.getBoundingBox().expand(SONIC_RANGE),
-                    e -> e != user && e.isAlive()
-            );
-
-            for (LivingEntity target : targets) {
-                Vec3d toTarget = new Vec3d(
-                        target.getX() - user.getX(),
-                        target.getY() - user.getY(),
-                        target.getZ() - user.getZ()
-                ).normalize();
-
-                double dot = toTarget.dotProduct(lookVec);
-                if (dot > CONE_DOT) {
-                    target.damage(serverWorld,
-                            serverWorld.getDamageSources().sonicBoom(user),
-                            SONIC_DAMAGE);
-                    target.addVelocity(lookVec.x * 2.0, 0.4, lookVec.z * 2.0);
-                    target.velocityDirty = true;
-                }
-            }
-
-            EquipmentSlot slot = (hand == Hand.MAIN_HAND)
-                    ? EquipmentSlot.MAINHAND
-                    : EquipmentSlot.OFFHAND;
-            stack.damage(1, user, slot);
-            user.getItemCooldownManager().set(stack, COOLDOWN_TICKS);
         }
+
+        stack.damage(1, user, hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+        user.getItemCooldownManager().set(stack, COOLDOWN_TICKS);
 
         return ActionResult.SUCCESS;
     }

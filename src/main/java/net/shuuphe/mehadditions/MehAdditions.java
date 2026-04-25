@@ -1,7 +1,10 @@
 package net.shuuphe.mehadditions;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.shuuphe.mehadditions.item.TranceItem;
 import net.shuuphe.mehadditions.network.SelectRaceWithStaffPacket;
+import net.shuuphe.mehadditions.network.TranceScrollPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +22,11 @@ public class MehAdditions implements ModInitializer {
 		ModScreenHandlers.register();
 		ModEvents.register();
 		SelectRaceWithStaffPacket.register();
+		TranceScrollPacket.register();
+
+		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+				TranceItem.onPlayerDisconnect(handler.player));
+
 		LOGGER.info("Meh-Additions initializing...");
 	}
 }

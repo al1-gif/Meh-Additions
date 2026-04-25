@@ -25,18 +25,15 @@ import java.util.function.Predicate;
 
 public class Bloodbath extends Item {
 
-    private static final float KNOCKBACK_RANGE = 3.5F;
-    private static final float KNOCKBACK_POWER = 0.7F;
-    private static final float HEAVY_SMASH_THRESHOLD = 5.0F;
+    private static final float  KNOCKBACK_RANGE       = 3.5F;
+    private static final double KNOCKBACK_RANGE_SQ    = KNOCKBACK_RANGE * KNOCKBACK_RANGE;
+    private static final float  KNOCKBACK_POWER       = 0.7F;
+    private static final float  HEAVY_SMASH_THRESHOLD = 5.0F;
 
     public Bloodbath(Settings settings) {
         super(settings);
     }
 
-    /**
-     * Call this in your item registration:
-     *   .attributeModifiers(Bloodbath.createAttributeModifiers())
-     */
     public static AttributeModifiersComponent createAttributeModifiers() {
         return AttributeModifiersComponent.builder()
                 .add(EntityAttributes.ATTACK_DAMAGE,
@@ -61,13 +58,9 @@ public class Bloodbath extends Item {
         double fall = living.fallDistance;
         double bonus;
 
-        if (fall <= 3.0) {
-            bonus = 4.0 * fall;
-        } else if (fall <= 8.0) {
-            bonus = 12.0 + 2.0 * (fall - 3.0);
-        } else {
-            bonus = 22.0 + (fall - 8.0);
-        }
+        if (fall <= 3.0)      bonus = 4.0 * fall;
+        else if (fall <= 8.0) bonus = 12.0 + 2.0 * (fall - 3.0);
+        else                  bonus = 22.0 + (fall - 8.0);
 
         return (float) bonus;
     }
@@ -76,6 +69,7 @@ public class Bloodbath extends Item {
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (!shouldDealAdditionalDamage(attacker)) return;
         if (!(attacker.getEntityWorld() instanceof ServerWorld serverWorld)) return;
+
         attacker.setVelocity(attacker.getVelocity().withAxis(Axis.Y, 0.01));
         if (attacker instanceof ServerPlayerEntity serverPlayer) {
             serverPlayer.currentExplosionImpactPos = getExplosionImpactPos(serverPlayer);
@@ -99,6 +93,7 @@ public class Bloodbath extends Item {
 
         knockbackNearbyEntities(serverWorld, attacker, target);
     }
+
     @Override
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (shouldDealAdditionalDamage(attacker)) {
@@ -137,23 +132,15 @@ public class Bloodbath extends Item {
 
     private static Predicate<LivingEntity> getKnockbackPredicate(Entity attacker, Entity attacked) {
         return entity -> {
-            boolean notSpectator = !entity.isSpectator();
-            boolean notInvolved  = entity != attacker && entity != attacked;
-            boolean notTeammate  = !attacker.isTeammate(entity);
-
-            boolean notOwnedPet = true;
+            if (entity.isSpectator()) return false;
+            if (entity == attacker || entity == attacked) return false;
+            if (attacker.isTeammate(entity)) return false;
+            if (entity instanceof ArmorStandEntity stand && stand.isMarker()) return false;
             if (entity instanceof TameableEntity tameable
                     && attacked instanceof LivingEntity livingAttacked
                     && tameable.isTamed()
-                    && tameable.isOwner(livingAttacked)) {
-                notOwnedPet = false;
-            }
-
-            boolean notMarker = !(entity instanceof ArmorStandEntity stand && stand.isMarker());
-
-            boolean inRange = attacked.squaredDistanceTo(entity) <= Math.pow(KNOCKBACK_RANGE, 2.0);
-
-            return notSpectator && notInvolved && notTeammate && notOwnedPet && notMarker && inRange;
+                    && tameable.isOwner(livingAttacked)) return false;
+            return attacked.squaredDistanceTo(entity) <= KNOCKBACK_RANGE_SQ;
         };
     }
 

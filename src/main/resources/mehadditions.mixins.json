@@ -4,7 +4,11 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"ExampleMixin",
-		"AnvilStaffEnchantMixin"
+		"AnvilStaffEnchantMixin",
+		"TranceKillDropMixin"
+	],
+	"client": [
+		"MouseScrollMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

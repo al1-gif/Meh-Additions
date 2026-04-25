@@ -72,7 +72,22 @@ public class ModItems {
                                     .build()
                     ));
     public static final TranceItem TRANCE = new TranceItem(
-            new Item.Settings().maxDamage(512).maxCount(1).registryKey(key("trance")));
+            new Item.Settings()
+                    .maxDamage(512)
+                    .maxCount(1)
+                    .registryKey(key("trance"))
+                    .attributeModifiers(
+                            AttributeModifiersComponent.builder()
+                                    .add(EntityAttributes.ATTACK_DAMAGE,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .add(EntityAttributes.ATTACK_SPEED,
+                                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -2.4,
+                                                    EntityAttributeModifier.Operation.ADD_VALUE),
+                                            AttributeModifierSlot.MAINHAND)
+                                    .build()
+                    ));
     public static final Hanafubuki HANAFUBUKI = new Hanafubuki(
             new Item.Settings()
                     .maxDamage(1561)
