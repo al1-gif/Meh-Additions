@@ -46,10 +46,10 @@ public class ModItems {
             new Item.Settings().maxCount(1).registryKey(key("large_rune_pouch")), 27);
 
     public static final AmosBowItem AMOS_BOW = new AmosBowItem(
-            new Item.Settings().maxDamage(384).maxCount(1).registryKey(key("amos_bow")));
+            new Item.Settings().maxDamage(384).maxCount(1).enchantable(10).registryKey(key("amos_bow")));
 
     public static final SkywardHarpItem SKYWARD_HARP = new SkywardHarpItem(
-            new Item.Settings().maxDamage(384).maxCount(1).registryKey(key("skyward_harp")));
+            new Item.Settings().maxDamage(384).maxCount(1).enchantable(10).registryKey(key("skyward_harp")));
 
     public static final LumidouceElegyScepterItem LUMIDOUCE_ELEGY = new LumidouceElegyScepterItem(
             new Item.Settings().maxDamage(512).maxCount(1).registryKey(key("lumidouce_elegy")));
@@ -58,6 +58,7 @@ public class ModItems {
             new Item.Settings()
                     .maxDamage(1561)
                     .maxCount(1)
+                    .enchantable(10)
                     .registryKey(key("freedom_sworn"))
                     .attributeModifiers(
                             AttributeModifiersComponent.builder()
@@ -75,6 +76,7 @@ public class ModItems {
             new Item.Settings()
                     .maxDamage(512)
                     .maxCount(1)
+                    .enchantable(10)
                     .registryKey(key("trance"))
                     .attributeModifiers(
                             AttributeModifiersComponent.builder()
@@ -92,6 +94,7 @@ public class ModItems {
             new Item.Settings()
                     .maxDamage(1561)
                     .maxCount(1)
+                    .enchantable(10)
                     .registryKey(key("hanafubuki"))
                     .attributeModifiers(
                             AttributeModifiersComponent.builder()
@@ -109,6 +112,7 @@ public class ModItems {
             new Item.Settings()
                     .maxDamage(500)
                     .maxCount(1)
+                    .enchantable(10)
                     .registryKey(key("bloodbath"))
                     .attributeModifiers(
                             AttributeModifiersComponent.builder()
@@ -126,6 +130,7 @@ public class ModItems {
             new Item.Settings()
                     .maxDamage(1561)
                     .maxCount(1)
+                    .enchantable(10)
                     .registryKey(key("blunt_force"))
                     .attributeModifiers(
                             AttributeModifiersComponent.builder()
@@ -144,6 +149,7 @@ public class ModItems {
             new Item.Settings()
                     .maxDamage(2031)
                     .maxCount(1)
+                    .enchantable(10)
                     .registryKey(key("crimson_moons_semblance"))
                     .attributeModifiers(
                             AttributeModifiersComponent.builder()

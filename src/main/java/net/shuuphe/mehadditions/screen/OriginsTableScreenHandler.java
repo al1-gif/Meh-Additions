@@ -59,7 +59,6 @@ public class OriginsTableScreenHandler extends ScreenHandler {
     }
 
     private void updateCraftResult(ServerWorld world) {
-        // Build input list with pre-sized ArrayList to avoid resizing
         List<ItemStack> stacks = new ArrayList<>(9);
         for (int i = 0; i < 9; i++) stacks.add(craftInput.getStack(i));
         var input = CraftingRecipeInput.create(3, 3, stacks);

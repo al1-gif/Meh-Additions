@@ -49,7 +49,6 @@ public class TranceMobRegistry {
         REVENANT_ONLY.add(BlazeEntity.class);
         REVENANT_ONLY.add(WitherSkeletonEntity.class);
 
-
         NEVER_CAPTURABLE.add(WitherEntity.class);
         NEVER_CAPTURABLE.add(ElderGuardianEntity.class);
         NEVER_CAPTURABLE.add(EnderDragonEntity.class);

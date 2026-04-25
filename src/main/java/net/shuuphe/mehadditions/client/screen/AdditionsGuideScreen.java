@@ -156,6 +156,30 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
         stat(COL_YELLOW, "  Small Rune Pouch");  image("small_pouch");     gap();
         stat(COL_YELLOW, "  Large Rune Pouch");  image("large_pouch");     gap();
         stat(COL_YELLOW, "  Crimson Moon's Semblance");  image("crimson_moons_semblance");     gap();
+            stat(COL_YELLOW, "  BloodBath"); image("bloodbath");    gap();
+        stat(COL_YELLOW, "  Blunt Force"); image("blunt_force");gap();
+        stat(COL_YELLOW, "  Hanafubuki"); image("hanafubuki");  gap();
+        stat(COL_YELLOW, "  Revenant's Staff"); image("revenant_staff");    gap();
+
+        header("Revenant's Staff");
+        stat(COL_GREEN, " + Staff used by every race but more beneficial for Revenants");
+        body(" Modes= Crouch + Right Click to cycle between 3 modes:");
+        header("Capture/Store mode");
+        body("Right click a mob within 5 blocks to capture it into the staff");
+        body("Each mob costs capacity points. Revenant has 250 capacity, other race has 200 capacity");
+        body("Other race costs hunger to capture and Revenant costs Spell Power instead");
+        body("Some mobs are exclusive to Revenants");
+        gap();
+        header("Summon Mode");
+        body("Right click to summon the currently selected mob");
+        body("Summoned mobs acts like revenants summons but are permanent");
+        body("Cooldown for summons is 10 second for other race and 4 seconds for Revenants");
+        body("Summons are auto-captured when you disconnect and saved back into the staff");
+        gap();
+        header("Wither mode");
+        body("Right click to shoot a wither skull");
+        body("Other race has only 3 wither skulls and Revenants has 5");
+        body("Auto reloads after 3 seconds when out of charges");
 
         spacer();
         stat(COL_GREEN, "════  Crafting Altar  ════");

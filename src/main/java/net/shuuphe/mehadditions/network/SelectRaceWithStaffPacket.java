@@ -30,7 +30,6 @@ public record SelectRaceWithStaffPacket(String raceId) implements CustomPayload 
         ServerPlayNetworking.registerGlobalReceiver(ID, (payload, ctx) -> {
             ServerPlayerEntity player = ctx.player();
             ctx.server().execute(() -> {
-                // Damage whichever hand holds the staff
                 var main = player.getMainHandStack();
                 var off  = player.getOffHandStack();
                 if (main.isOf(ModItems.ORIGIN_STAFF)) {
@@ -39,7 +38,6 @@ public record SelectRaceWithStaffPacket(String raceId) implements CustomPayload 
                     off.damage(1, player, player.getPreferredEquipmentSlot(off));
                 }
 
-                // Validate race exists before applying (removed dead targetRace variable)
                 boolean valid = RaceRegistry.getAll().stream()
                         .anyMatch(r -> r.getId().equals(payload.raceId()));
                 if (valid) {

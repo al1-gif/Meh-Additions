@@ -11,16 +11,39 @@ import java.util.List;
 
 public class TranceDataManager {
 
-    private static final String KEY_MOBS      = "trance_mobs";
-    private static final String KEY_POINTS    = "trance_points";
-    private static final String KEY_SELECTED  = "trance_selected";
-    private static final String KEY_MODE      = "trance_mode";
+    private static final String KEY_MOBS           = "trance_mobs";
+    private static final String KEY_POINTS         = "trance_points";
+    private static final String KEY_SELECTED       = "trance_selected";
+    private static final String KEY_MODE           = "trance_mode";
+    private static final String KEY_ATTACK_CHARGES = "trance_attack_charges";
 
     private static final String ENTRY_TYPE      = "type";
     private static final String ENTRY_EQUIPMENT = "equipment";
 
     public static final String MODE_CAPTURE = "CAPTURE";
     public static final String MODE_SUMMON  = "SUMMON";
+    public static final String MODE_ATTACK  = "ATTACK";
+    public static int getAttackCharges(ItemStack stack) {
+        return getNbt(stack).getInt(KEY_ATTACK_CHARGES).orElse(-1);
+    }
+
+    public static void setAttackCharges(ItemStack stack, int charges) {
+        NbtCompound nbt = getNbt(stack);
+        nbt.putInt(KEY_ATTACK_CHARGES, charges);
+        writeNbt(stack, nbt);
+    }
+
+    public static void toggleMode(ItemStack stack) {
+        String current = getMode(stack);
+        NbtCompound nbt = getNbt(stack);
+        String next = switch (current) {
+            case MODE_CAPTURE -> MODE_SUMMON;
+            case MODE_SUMMON  -> MODE_ATTACK;
+            default           -> MODE_CAPTURE;
+        };
+        nbt.putString(KEY_MODE, next);
+        writeNbt(stack, nbt);
+    }
 
     public static List<String> getStoredMobs(ItemStack stack) {
         NbtList list = getRawList(stack);
@@ -47,6 +70,7 @@ public class TranceDataManager {
     public static void addMob(ItemStack stack, String typeId) {
         addMobEntry(stack, typeId, new NbtCompound());
     }
+
     public static NbtCompound getMobEquipment(ItemStack stack, int index) {
         NbtList list = getRawList(stack);
         if (index < 0 || index >= list.size()) return new NbtCompound();
@@ -55,6 +79,7 @@ public class TranceDataManager {
         }
         return new NbtCompound();
     }
+
     public static void removeMobAt(ItemStack stack, int index) {
         NbtCompound nbt = getNbt(stack);
         if (!nbt.contains(KEY_MOBS)) return;
@@ -101,13 +126,6 @@ public class TranceDataManager {
 
     public static String getMode(ItemStack stack) {
         return getNbt(stack).getString(KEY_MODE).orElse(MODE_CAPTURE);
-    }
-
-    public static void toggleMode(ItemStack stack) {
-        String current = getMode(stack);
-        NbtCompound nbt = getNbt(stack);
-        nbt.putString(KEY_MODE, current.equals(MODE_CAPTURE) ? MODE_SUMMON : MODE_CAPTURE);
-        writeNbt(stack, nbt);
     }
 
     private static NbtList getRawList(ItemStack stack) {

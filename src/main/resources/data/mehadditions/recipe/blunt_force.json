@@ -1,0 +1,16 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " I ",
+    "III",
+    " B "
+  ],
+  "key": {
+    "I": "minecraft:netherite_ingot",
+    "B": "minecraft:breeze_rod"
+  },
+  "result": {
+    "id": "mehadditions:blunt_force",
+    "count": 1
+  }
+}

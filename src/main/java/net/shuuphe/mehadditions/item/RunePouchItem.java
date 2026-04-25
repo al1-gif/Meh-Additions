@@ -86,7 +86,6 @@ public class RunePouchItem extends Item {
         stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt));
     }
 
-    /** Fast NBT scan — no codec, works on client and server. */
     public static boolean hasPouchWithRune(ItemStack pouchStack, Item runeItem) {
         String targetId = Registries.ITEM.getId(runeItem).toString();
         NbtCompound nbt = pouchStack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt();

@@ -2,12 +2,15 @@ package net.shuuphe.mehadditions;
 
 import com.shuuphe.mehorigins.client.screen.RaceGuideScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.entity.ArrowEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.shuuphe.mehadditions.client.HudRenderer;
+import net.shuuphe.mehadditions.client.TranceSkullRenderer;
+import net.shuuphe.mehadditions.client.Trance_Skull;
 import net.shuuphe.mehadditions.client.screen.AdditionsGuideScreen;
 import net.shuuphe.mehadditions.client.screen.CraftingAltarScreen;
 import net.shuuphe.mehadditions.client.screen.OriginsTableScreen;
@@ -31,5 +34,6 @@ public class MehAdditionsClient implements ClientModInitializer {
         });
 
         HudRenderer.register();
+        TranceSkullRenderer.register();
     }
 }

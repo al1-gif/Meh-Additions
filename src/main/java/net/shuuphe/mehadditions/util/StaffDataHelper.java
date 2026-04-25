@@ -28,11 +28,6 @@ public class StaffDataHelper {
         }
         return result;
     }
-
-    /**
-     * Fast containment check — scans the raw NBT list directly
-     * instead of deserializing it into a full List<String>.
-     */
     public static boolean hasRace(ItemStack stack, String raceId) {
         var data = stack.get(DataComponentTypes.CUSTOM_DATA);
         if (data == null) return false;
@@ -54,10 +49,6 @@ public class StaffDataHelper {
         save(stack, existing);
     }
 
-    /**
-     * Copies all unlocked races from {@code from} to {@code to} in a single
-     * NBT write instead of one write per race.
-     */
     public static void copyFrom(ItemStack from, ItemStack to) {
         List<String> source = getUnlockedRaces(from);
         if (source.isEmpty()) return;

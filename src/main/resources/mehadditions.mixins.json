@@ -5,7 +5,8 @@
 	"mixins": [
 		"ExampleMixin",
 		"AnvilStaffEnchantMixin",
-		"TranceKillDropMixin"
+		"TranceKillDropMixin",
+		"ZombieEquipmentMixin"
 	],
 	"client": [
 		"MouseScrollMixin"

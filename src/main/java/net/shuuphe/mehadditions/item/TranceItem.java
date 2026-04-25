@@ -12,6 +12,7 @@ import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -34,20 +35,54 @@ import java.util.*;
 
 public class TranceItem extends Item {
 
-    private static final int    COOLDOWN_DEFAULT  = 200;
-    private static final int    COOLDOWN_REVENANT = 80;
-    private static final double CAPTURE_RANGE     = 5.0;
+    private static final int COOLDOWN_DEFAULT  = 200;
+    private static final int COOLDOWN_REVENANT = 80;
+    public static final int MAX_CHARGES_DEFAULT  = 3;
+    public static final int MAX_CHARGES_REVENANT = 5;
+    private static final int ATTACK_SINGLE_CD_TICKS = 20;
+    private static final int ATTACK_RELOAD_TICKS    = 60;
+
+    private static final double CAPTURE_RANGE = 5.0;
 
     public static final Map<UUID, Integer>       COOLDOWNS      = new HashMap<>();
     public static final Map<UUID, List<Integer>> SUMMONS        = new HashMap<>();
     public static final Set<Integer>             ALL_SUMMON_IDS = new HashSet<>();
     public static final Map<Integer, UUID>       SUMMON_OWNERS  = new HashMap<>();
 
+    public static final Map<UUID, Integer> ATTACK_SINGLE_CD = new HashMap<>();
+    public static final Map<UUID, Integer> ATTACK_RELOAD_CD = new HashMap<>();
+
     static {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
+
             COOLDOWNS.entrySet().removeIf(e -> {
                 int next = e.getValue() - 1;
                 if (next <= 0) return true;
+                e.setValue(next);
+                return false;
+            });
+
+            ATTACK_SINGLE_CD.entrySet().removeIf(e -> {
+                int next = e.getValue() - 1;
+                if (next <= 0) return true;
+                e.setValue(next);
+                return false;
+            });
+
+            ATTACK_RELOAD_CD.entrySet().removeIf(e -> {
+                int next = e.getValue() - 1;
+                if (next <= 0) {
+                    ServerPlayerEntity player = server.getPlayerManager().getPlayer(e.getKey());
+                    if (player != null) {
+                        ItemStack tranceStack = findTranceStack(player);
+                        if (tranceStack != null) {
+                            boolean isRev = RaceManager.getRace(player) instanceof RevenantRace;
+                            int max = isRev ? MAX_CHARGES_REVENANT : MAX_CHARGES_DEFAULT;
+                            TranceDataManager.setAttackCharges(tranceStack, max);
+                        }
+                    }
+                    return true;
+                }
                 e.setValue(next);
                 return false;
             });
@@ -111,20 +146,88 @@ public class TranceItem extends Item {
         if (player.isSneaking()) {
             TranceDataManager.toggleMode(stack);
             String newMode = TranceDataManager.getMode(stack);
-            player.sendMessage(Text.literal("Staff: " +
-                    (newMode.equals(TranceDataManager.MODE_CAPTURE) ? "§cCapture Mode" : "§aSummon Mode")), true);
+            String modeLabel = switch (newMode) {
+                case TranceDataManager.MODE_CAPTURE -> "§cCapture";
+                case TranceDataManager.MODE_SUMMON  -> "§aSummon";
+                case TranceDataManager.MODE_ATTACK  -> "Wither";
+                default -> newMode;
+            };
+            player.sendMessage(Text.literal("Staff: " + modeLabel), true);
             return ActionResult.PASS;
         }
 
-        if (mode.equals(TranceDataManager.MODE_CAPTURE)) {
-            handleCapture(player, stack, world, isRevenant);
-        } else {
-            handleSummon(player, stack, world, isRevenant);
+        switch (mode) {
+            case TranceDataManager.MODE_CAPTURE -> handleCapture(player, stack, world, isRevenant);
+            case TranceDataManager.MODE_SUMMON  -> handleSummon(player, stack, world, isRevenant);
+            case TranceDataManager.MODE_ATTACK  -> handleAttack(player, stack, world, isRevenant);
         }
 
         return ActionResult.PASS;
     }
 
+    private void handleAttack(ServerPlayerEntity player, ItemStack stack, World world, boolean isRevenant) {
+        if (ATTACK_RELOAD_CD.containsKey(player.getUuid())) {
+            int remaining = ATTACK_RELOAD_CD.get(player.getUuid());
+            int secs = (remaining + 19) / 20;
+            return;
+        }
+        if (ATTACK_SINGLE_CD.containsKey(player.getUuid())) return;
+
+        int maxCharges = isRevenant ? MAX_CHARGES_REVENANT : MAX_CHARGES_DEFAULT;
+
+        int charges = TranceDataManager.getAttackCharges(stack);
+        if (charges < 0) {
+            charges = maxCharges;
+            TranceDataManager.setAttackCharges(stack, charges);
+        }
+
+        if (charges <= 0) {
+            ATTACK_RELOAD_CD.put(player.getUuid(), ATTACK_RELOAD_TICKS);
+            return;
+        }
+
+        ServerWorld serverWorld = (ServerWorld) world;
+        float[][] ALL_POSITIONS = {
+                {  0.00f, 2.90f, -0.40f },
+                { -0.60f, 2.35f, -0.40f },
+                {  0.60f, 2.35f, -0.40f },
+                { -0.35f, 1.70f, -0.40f },
+                {  0.35f, 1.70f, -0.40f },
+        };
+
+        int skullIndex = Math.min(charges - 1, ALL_POSITIONS.length - 1);
+        float[] p = ALL_POSITIONS[skullIndex];
+
+        float yawRad = (float) Math.toRadians(player.getBodyYaw());
+        float cosYaw = (float) Math.cos(yawRad);
+        float sinYaw = (float) Math.sin(yawRad);
+
+        float rx = p[0] * cosYaw - p[2] * sinYaw;
+        float rz = p[0] * sinYaw + p[2] * cosYaw;
+
+        Vec3d skullPos = new Vec3d(
+                player.getX() + rx,
+                player.getY() + p[1] - 0.8f,
+                player.getZ() + rz
+        );
+
+        Vec3d look     = player.getRotationVector();
+        Vec3d velocity = look.multiply(0.7);
+
+        WitherSkullEntity skull = new WitherSkullEntity(serverWorld, player, velocity);
+        skull.setCharged(false);
+        skull.setPosition(skullPos.x, skullPos.y, skullPos.z);
+        serverWorld.spawnEntity(skull);
+        skull.setCharged(false);
+        skull.setOwner(player);
+        serverWorld.spawnEntity(skull);
+        charges--;
+        TranceDataManager.setAttackCharges(stack, charges);
+        ATTACK_SINGLE_CD.put(player.getUuid(), ATTACK_SINGLE_CD_TICKS);
+        if (charges <= 0) {
+            ATTACK_RELOAD_CD.put(player.getUuid(), ATTACK_RELOAD_TICKS);
+        }
+    }
     private void handleCapture(ServerPlayerEntity player, ItemStack stack, World world, boolean isRevenant) {
         LivingEntity target = getTargetedEntity(player, world);
         if (target == null) return;
@@ -142,7 +245,7 @@ public class TranceItem extends Item {
         if (pts < 0) pts = 20;
 
         int capacity = isRevenant ? TranceMobRegistry.CAPACITY_REVENANT : TranceMobRegistry.CAPACITY_DEFAULT;
-        int used = TranceDataManager.getUsedPoints(stack);
+        int used     = TranceDataManager.getUsedPoints(stack);
 
         if (!isOwnedByTrance && used + pts > capacity) {
             player.sendMessage(Text.literal("§cNot enough capacity! (" + used + "/" + capacity + ")"), true);
@@ -152,7 +255,7 @@ public class TranceItem extends Item {
         if (!isOwnedByTrance) {
             if (isRevenant) {
                 int cost = TranceMobRegistry.getCaptureSpellCost(target);
-                int sp = RevenantRace.getSpellPower(player);
+                int sp   = RevenantRace.getSpellPower(player);
                 if (sp < cost) {
                     player.sendMessage(Text.literal("§cNot enough Spell Power! Need " + cost + "."), true);
                     return;
@@ -190,7 +293,6 @@ public class TranceItem extends Item {
 
         target.discard();
     }
-
     private void handleSummon(ServerPlayerEntity player, ItemStack stack, World world, boolean isRevenant) {
         List<String> mobs = TranceDataManager.getStoredMobs(stack);
         if (mobs.isEmpty()) return;
@@ -252,7 +354,6 @@ public class TranceItem extends Item {
 
         COOLDOWNS.put(player.getUuid(), isRevenant ? COOLDOWN_REVENANT : COOLDOWN_DEFAULT);
     }
-
     private static NbtCompound saveEquipment(LivingEntity entity, ServerWorld world) {
         NbtCompound nbt = new NbtCompound();
         for (EquipmentSlot slot : EquipmentSlot.values()) {
@@ -323,9 +424,11 @@ public class TranceItem extends Item {
         }
 
         COOLDOWNS.remove(player.getUuid());
+        ATTACK_SINGLE_CD.remove(player.getUuid());
+        ATTACK_RELOAD_CD.remove(player.getUuid());
     }
 
-    private static ItemStack findTranceStack(ServerPlayerEntity player) {
+    static ItemStack findTranceStack(ServerPlayerEntity player) {
         for (int i = 0; i < player.getInventory().size(); i++) {
             ItemStack s = player.getInventory().getStack(i);
             if (s.getItem() instanceof TranceItem) return s;
@@ -359,10 +462,11 @@ public class TranceItem extends Item {
         }
         return closest;
     }
+
     @Override
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(1, attacker, attacker.getActiveHand() == Hand.MAIN_HAND
-                ? net.minecraft.entity.EquipmentSlot.MAINHAND
-                : net.minecraft.entity.EquipmentSlot.OFFHAND);
+                ? EquipmentSlot.MAINHAND
+                : EquipmentSlot.OFFHAND);
     }
 }

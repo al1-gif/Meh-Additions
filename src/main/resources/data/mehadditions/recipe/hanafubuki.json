@@ -1,0 +1,17 @@
+{
+  "type": "mehadditions:staff_base",
+  "pattern": [
+    " I ",
+    "EIE",
+    " D "
+  ],
+  "key": {
+    "D": "minecraft:diamond_sword",
+    "I": "minecraft:cherry_leaves",
+    "E": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "mehadditions:hanafubuki",
+    "count": 1
+  }
+}

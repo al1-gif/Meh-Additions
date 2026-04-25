@@ -28,11 +28,6 @@ public class StaffScreen extends Screen {
     private static final Identifier TEX_SCROLL    = Identifier.of("mehadditions", "textures/staffgui/scroll_bar.png");
     private static final Identifier TEX_SLOT      = Identifier.of("mehadditions", "textures/staffgui/slot.png");
     private static final Identifier TEX_ORB       = Identifier.of("mehadditions", "textures/staffgui/orb_of_origin.png");
-
-    /**
-     * Static icon map — replaces the switch-case in drawRaceIcon.
-     * Initialised once at class-load; no per-frame allocation.
-     */
     private static final Map<String, Identifier> RACE_ICONS = Map.ofEntries(
         Map.entry("fae",      Identifier.of("mehorigins", "textures/races/fae.png")),
         Map.entry("pixie",    Identifier.of("mehorigins", "textures/races/pixie.png")),
@@ -47,10 +42,6 @@ public class StaffScreen extends Screen {
         Map.entry("high_elf", Identifier.of("mehorigins", "textures/races/high_elf.png")),
         Map.entry("revenant", Identifier.of("mehorigins", "textures/races/revenant.png"))
     );
-
-    /**
-     * Static item-stack fallbacks — created once, never per-frame.
-     */
     private static final Map<String, ItemStack> RACE_ITEMS = Map.of(
         "enderian", new ItemStack(Items.ENDER_PEARL),
         "elytrian", new ItemStack(Items.ELYTRA),
@@ -92,7 +83,6 @@ public class StaffScreen extends Screen {
     private float  expandProgress = 0f;
     private boolean expanding     = false;
 
-    /** Cached total content height — invalidated whenever entries or expansion changes. */
     private int cachedContentHeight = -1;
 
     public StaffScreen(ItemStack staffStack) {
