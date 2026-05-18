@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ZombieEntity.class)
 public class ZombieEquipmentMixin {
 
-    private static final float CHANCE = 0.20f;
+    private static final float CHANCE = 0.30f;
 
     @Inject(method = "initialize", at = @At("RETURN"))
     private void onInitialize(ServerWorldAccess world, LocalDifficulty difficulty,

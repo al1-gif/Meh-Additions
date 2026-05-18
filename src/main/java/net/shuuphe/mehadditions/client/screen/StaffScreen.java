@@ -34,19 +34,21 @@ public class StaffScreen extends Screen {
         Map.entry("arachnae", Identifier.of("mehorigins", "textures/races/arachnae.png")),
         Map.entry("alfiq",    Identifier.of("mehorigins", "textures/races/alfiq.png")),
         Map.entry("valkyrie", Identifier.of("mehorigins", "textures/races/valkyrie.png")),
-        Map.entry("ogre",     Identifier.of("mehorigins", "textures/races/ogre.png")),
         Map.entry("siren",    Identifier.of("mehorigins", "textures/races/siren.png")),
         Map.entry("banshee",  Identifier.of("mehorigins", "textures/races/banshee.png")),
         Map.entry("wood_elf", Identifier.of("mehorigins", "textures/races/wood_elf.png")),
-        Map.entry("dwarf",    Identifier.of("mehorigins", "textures/races/dwarf.png")),
-        Map.entry("high_elf", Identifier.of("mehorigins", "textures/races/high_elf.png")),
-        Map.entry("revenant", Identifier.of("mehorigins", "textures/races/revenant.png"))
+        Map.entry("revenant", Identifier.of("mehorigins", "textures/races/revenant.png")),
+        Map.entry("icarae",   Identifier.of("mehorigins", "textures/races/icarae.png")),
+        Map.entry("mahoraga", Identifier.of("mehorigins", "textures/races/mahoraga.png"))
     );
     private static final Map<String, ItemStack> RACE_ITEMS = Map.of(
         "enderian", new ItemStack(Items.ENDER_PEARL),
         "elytrian", new ItemStack(Items.ELYTRA),
         "shulk",    new ItemStack(Items.SHULKER_SHELL),
         "avian",    new ItemStack(Items.FEATHER),
+        "feline",   new ItemStack(Items.ORANGE_WOOL),
+        "blazeborn",new ItemStack(Items.BLAZE_POWDER),
+        "arachnid",new ItemStack(Items.COBWEB),
         "human",    new ItemStack(Items.PLAYER_HEAD)
     );
     private static final ItemStack FALLBACK_ITEM = new ItemStack(Items.BARRIER);
