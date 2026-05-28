@@ -134,15 +134,23 @@ public class AdditionsGuideScreen extends RaceGuideScreen {
 
         anchor("recipe_alfiq");    stat(COL_YELLOW, "  Alfiq");    image("alfiq");    gap();
         anchor("recipe_arachnae"); stat(COL_YELLOW, "  Arachnae"); image("arachnae"); gap();
+        anchor("recipe_arachnid"); stat(COL_YELLOW, "  Arachnid"); image("arachnid"); gap();
         anchor("recipe_avian");    stat(COL_YELLOW, "  Avian");    image("avian");    gap();
+        anchor("recipe_banshee");  stat(COL_YELLOW, "  Banshee");  image("banshee");  gap();
+        anchor("recipe_blazeborn");stat(COL_YELLOW, "  Blazborn"); image("blazeborn");gap();
         anchor("recipe_elytrian"); stat(COL_YELLOW, "  Elytrian"); image("elytrian"); gap();
         anchor("recipe_enderian"); stat(COL_YELLOW, "  Enderian"); image("enderian"); gap();
         anchor("recipe_fae");      stat(COL_YELLOW, "  Fae");      image("fae");      gap();
+        anchor("recipe_feline");   stat(COL_YELLOW, "  Feline");   image("feline");   gap();
         anchor("recipe_human");    stat(COL_YELLOW, "  Human");    image("human");    gap();
+        anchor("recipe_icarae");   stat(COL_YELLOW, "  Icarae");   image("icarae");   gap();
+        anchor("recipe_mahoraga"); stat(COL_YELLOW, "  Mahoraga"); image("mahoraga");   gap();
         anchor("recipe_pixie");    stat(COL_YELLOW, "  Pixie");    image("pixie");    gap();
         anchor("recipe_revenant"); stat(COL_YELLOW, "  Revenant"); image("revenant"); gap();
         anchor("recipe_shulk");    stat(COL_YELLOW, "  Shulk");    image("shulk");    gap();
+        anchor("recipe_siren");    stat(COL_YELLOW, "  Siren");    image("siren");    gap();
         anchor("recipe_valkyrie"); stat(COL_YELLOW,   "  Valkyrie"); image("valkyrie"); gap();
+        anchor("recipe_wood_elf"); stat(COL_YELLOW,   "  Wood Elf"); image("wood_elf"); gap();
 
         spacer();
         stat(COL_GREEN, "════  Tools  ════");
